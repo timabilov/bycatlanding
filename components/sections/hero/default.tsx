@@ -9,6 +9,7 @@ import Github from "../../logos/github";
 import { Badge } from "../../ui/badge";
 import { Button, buttonVariants } from "../../ui/button";
 import Glow from "../../ui/glow";
+import HeroIllustration from "../../ui/hero-illustration";
 import { Mockup, MockupFrame } from "../../ui/mockup";
 import Screenshot from "../../ui/screenshot";
 import { Section } from "../../ui/section";
@@ -31,7 +32,7 @@ interface HeroProps {
 }
 
 export default function Hero({
-  title = "Give your big idea the design it deserves",
+  title = "Your secret to smarter studying",
   description = "Professionally designed blocks and templates built with React, Shadcn/ui and Tailwind that will help your product stand out.",
   mockup = (
     <Screenshot
@@ -74,7 +75,7 @@ export default function Hero({
         className,
       )}
     >
-      <div className="flex flex-col gap-8 px-4 sm:gap-12 md:px-8 lg:px-12">
+      <div className="flex flex-col gap-8 px-4 sm:gap-12 sm:px-4 md:px-16 lg:px-24">
         <div className="flex max-w-3xl flex-col items-start gap-6 text-left">
           {badge !== false && badge}
           <h1 className="animate-appear relative z-10 text-4xl font-bold leading-tight text-foreground opacity-0 sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
