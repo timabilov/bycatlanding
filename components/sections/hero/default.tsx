@@ -76,69 +76,76 @@ export default function Hero({
       )}
     >
       <div className="flex flex-col gap-8 px-4 sm:gap-12 sm:px-4 md:px-16 lg:px-24">
-        <div className="flex max-w-3xl flex-col items-start gap-6 text-left">
-          {badge !== false && badge}
-          <h1 className="animate-appear relative z-10 text-4xl font-bold leading-tight text-foreground opacity-0 sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
-            {title}
-          </h1>
-          <p className="animate-appear relative z-10 text-base font-normal text-muted-foreground opacity-0 delay-100 sm:text-lg">
-            {description}
-          </p>
-          {buttons !== false && buttons.length > 0 && (
-            <div className="animate-appear relative z-10 flex gap-4 opacity-0 delay-300">
-              {buttons.map((button, index) => (
-                <Button
-                  key={index}
-                  variant={button.variant || "default"}
-                  size="lg"
-                  asChild
-                >
-                  <a href={button.href}>
-                    {button.icon}
-                    {button.text}
-                    {button.iconRight}
-                  </a>
-                </Button>
-              ))}
-            </div>
-          )}
-          <div className="animate-appear relative z-10 flex items-center gap-3 opacity-0 delay-500">
-            <div className="flex -space-x-2">
-              <div className="size-8 overflow-hidden rounded-full border-2 border-background">
-                <img
-                  src="https://avatar.vercel.sh/1"
-                  alt="User"
-                  className="size-full object-cover"
-                />
-              </div>
-              <div className="size-8 overflow-hidden rounded-full border-2 border-background">
-                <img
-                  src="https://avatar.vercel.sh/2"
-                  alt="User"
-                  className="size-full object-cover"
-                />
-              </div>
-              <div className="size-8 overflow-hidden rounded-full border-2 border-background">
-                <img
-                  src="https://avatar.vercel.sh/3"
-                  alt="User"
-                  className="size-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <StarIcon
-                    key={i}
-                    className="size-4 fill-current text-foreground"
-                  />
+        <div className="flex flex-col items-center gap-8 lg:flex-row lg:gap-12">
+          {/* Left content */}
+          <div className="flex max-w-2xl flex-col items-start gap-6 text-left lg:flex-1">
+            {badge !== false && badge}
+            <h1 className="animate-appear relative z-10 text-4xl font-bold leading-tight text-foreground opacity-0 sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
+              {title}
+            </h1>
+            <p className="animate-appear relative z-10 text-base font-normal text-muted-foreground opacity-0 delay-100 sm:text-lg">
+              {description}
+            </p>
+            {buttons !== false && buttons.length > 0 && (
+              <div className="animate-appear relative z-10 flex gap-4 opacity-0 delay-300">
+                {buttons.map((button, index) => (
+                  <Button
+                    key={index}
+                    variant={button.variant || "default"}
+                    size="lg"
+                    asChild
+                  >
+                    <a href={button.href}>
+                      {button.icon}
+                      {button.text}
+                      {button.iconRight}
+                    </a>
+                  </Button>
                 ))}
               </div>
-              <span className="text-sm text-muted-foreground">
-                Used by 261k+ designers and developers
-              </span>
+            )}
+            <div className="animate-appear relative z-10 flex items-center gap-3 opacity-0 delay-500">
+              <div className="flex -space-x-2">
+                <div className="size-8 overflow-hidden rounded-full border-2 border-background">
+                  <img
+                    src="https://avatar.vercel.sh/1"
+                    alt="User"
+                    className="size-full object-cover"
+                  />
+                </div>
+                <div className="size-8 overflow-hidden rounded-full border-2 border-background">
+                  <img
+                    src="https://avatar.vercel.sh/2"
+                    alt="User"
+                    className="size-full object-cover"
+                  />
+                </div>
+                <div className="size-8 overflow-hidden rounded-full border-2 border-background">
+                  <img
+                    src="https://avatar.vercel.sh/3"
+                    alt="User"
+                    className="size-full object-cover"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon
+                      key={i}
+                      className="size-4 fill-current text-foreground"
+                    />
+                  ))}
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  Used by 261k+ designers and developers
+                </span>
+              </div>
             </div>
+          </div>
+          {/* Right illustration */}
+          <div className="relative hidden lg:block lg:flex-1">
+            <HeroIllustration />
           </div>
         </div>
         {mockup !== false && (
