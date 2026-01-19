@@ -5,93 +5,82 @@ import { ArrowRightIcon, Globe, StarIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
-import { Badge } from "../../ui/badge";
 import { Button, buttonVariants } from "../../ui/button";
 import Glow from "../../ui/glow";
 import HeroIllustration from "../../ui/hero-illustration";
-import { Mockup, MockupFrame } from "../../ui/mockup";
 import { Section } from "../../ui/section";
 
-// --- 1. SLIDESHOW COMPONENT (Launch UI Style Crossfade) ---
+// --- 1. STATIC 3D STACK COMPONENT (View from Left) ---
 
-const slidesData = [
-  {
-    id: 1,
-    light: "/ss1.png", // Ensure these are in your public folder
-    dark: "/ss1.png",
-    alt: "Dashboard Overview",
-  },
-  {
-    id: 2,
-    light: "/ss2.png",
-    dark: "/ss2.png",
-    alt: "AI Chat Interface",
-  },
-  {
-    id: 3,
-    light: "/ss3.png",
-    dark: "/ss3.png",
-    alt: "Quiz Generation",
-  }
+const images = [
+  { srcLight: "/ss1.png", srcDark: "/ss1.png", alt: "Dashboard" },
+  { srcLight: "/ss2.png", srcDark: "/ss2.png", alt: "Chat" },
+  { srcLight: "/ss3.png", srcDark: "/ss3.png", alt: "Quiz" },
 ];
 
-function HeroSlideshow({ width, height, className }: { width: number; height: number; className?: string }) {
+function StaticImageStack({ className }: { className?: string }) {
   const { resolvedTheme } = useTheme();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [mounted, setMounted] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Cycle slides every 5 seconds
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % slidesData.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
-  if (!mounted) return <div className={cn("bg-muted", className)} style={{ width, height }} />;
+  if (!mounted) return <div className={cn("bg-muted w-full aspect-[16/9] mx-auto", className)} />;
 
   return (
-    <div className={cn("relative h-full w-full overflow-hidden bg-background", className)}>
-      <AnimatePresence mode="popLayout">
-        {/* We use popLayout so the exiting image stays in place while the new one enters */}
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, scale: 1.02 }} // Start slightly zoomed in and transparent
-          animate={{ opacity: 1, scale: 1 }}    // Settle to normal size and fully visible
-          exit={{ opacity: 0 }}                 // Fade out
-          transition={{
-            opacity: { duration: 1.2, ease: "easeInOut" }, // Slow, organic fade
-            scale: { duration: 1.5, ease: "easeOut" }      // Subtle zoom effect
-          }}
-          className="absolute inset-0 size-full h-125 w-225"
-        >
-            <img
-                      src={"/ss1.png"}
-                      alt="User"
-                      width={width}
-            height={height}
-                       className="size-full object-cover object-top h-125"
-                    />
+    <div className={cn("relative w-full aspect-[16/10] sm:aspect-[2/1] overflow-visible perspective-1000 mx-auto", className)}>
+      {/* 
+        3D Transform adjustments:
+        rotateY(25deg): Turns the right side away (viewing from left).
+        rotateX(10deg): Slight tilt backward.
+        translateX(-10%): Re-centers the stack since rotation pushes it right.
+      */}
+      <div 
+        className="relative w-full h-full flex items-center justify-center scale-100 sm:scale-110 origin-center mx-auto"
+        style={{ transform: "perspective(1200px) rotateY(25deg) rotateX(10deg) translateX(-5%)" }}
+      >
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className={cn(
+              "absolute top-0 w-[60%] rounded-xl shadow-2xl border border-border/40 bg-background transition-all duration-500 hover:z-50 hover:scale-105 hover:-translate-y-4 mx-auto",
+              // Positioning: Stacked left to right
+              index === 0 && "left-0 top-12 z-30 opacity-100", // Leftmost image is closest/clearest
+              index === 1 && "left-[20%] top-6 z-20 opacity-[0.95]",
+              index === 2 && "left-[40%] top-0 z-10 opacity-[0.9]"
+            )}
+            style={{
+               boxShadow: "25px 25px 50px -12px rgba(0, 0, 0, 0.4)" // Stronger shadow to the right
+            }}
+          >
+            {/* Window Browser Header */}
+            <div className="h-4 w-full border-b border-border/20 bg-muted/20 flex items-center gap-1.5 px-3 rounded-t-xl mx-auto">
+              <div className="size-2 rounded-full bg-red-400/80" />
+              <div className="size-2 rounded-full bg-amber-400/80" />
+              <div className="size-2 rounded-full bg-green-400/80" />
+            </div>
 
-          {/* <Image
-            src={slidesData[0].light}
-            alt={slidesData[0].alt}
-            width={width}
-            height={height}
-            className="size-full object-cover object-top"
-            priority={true}
-          /> */}
-        </motion.div>
-      </AnimatePresence>
+            {/* Image */}
+            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-b-xl bg-background">
+              <Image
+                src={resolvedTheme === "light" ? img.srcLight : img.srcDark}
+                alt={img.alt}
+                fill
+                className="object-cover object-top"
+                priority={index === 0} 
+              />
+            </div>
+            
+            {/* Glass Sheen Effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5 pointer-events-none rounded-xl" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -134,14 +123,9 @@ export default function Hero({
   title = "Your secret to smarter studying",
   description = "Professionally designed blocks and templates built with React, Shadcn/ui and Tailwind that will help your product stand out.",
   
-  // *** MOCKUP SECTION UPDATED ***
-  // We use the exact wrapper styling inspired by the Launch UI HTML snippet provided
+  // *** MOCKUP SECTION REPLACED ***
   mockup = (
-    <HeroSlideshow
-      width={1248}
-      height={765}
-      className="w-full h-full bg-background"
-    />
+    <StaticImageStack className="w-full" />
   ),
   
   badge = (
@@ -164,7 +148,7 @@ export default function Hero({
     {
       href: siteConfig.getStartedUrl,
       text: "Web platform",
-      variant: "glow",
+      variant: "outline",
       icon: <Globe className="mr-2 size-4" />,
       className: "h-12 px-6 text-base",
     },
@@ -176,10 +160,9 @@ export default function Hero({
         <div className="flex items-center gap-3">
           <AppleLogo className="size-5 fill-current mb-0.5" />
           <div className="flex flex-col items-start leading-none">
-            <span className="text-[10px] font-medium opacity-70">
+            <span className="text-base font-bold ">
               Download on the
             </span>
-            <span className="text-sm font-bold">App Store</span>
           </div>
         </div>
       ),
@@ -232,7 +215,7 @@ export default function Hero({
               </div>
             )}
 
-            {/* User Avatars / Social Proof */}
+            {/* User Avatars */}
             <div className="animate-appear relative z-10 flex items-center gap-3 opacity-0 delay-500">
               <div className="flex -space-x-2">
                 {["user1.png", "user2.png", "user3.png", "user4.png", "user5.png"].map((name, index) => (
@@ -241,7 +224,7 @@ export default function Hero({
                     className="size-8 overflow-hidden rounded-full border-2 border-background"
                   >
                     <img
-                      src={`/${name}`} // Assumed path
+                      src={`/${name}`} 
                       alt="User"
                       width={32}
                       height={32}
@@ -274,20 +257,8 @@ export default function Hero({
         
         {/* Mockup Section */}
         {mockup !== false && (
-          <div className="relative w-full pt-6 sm:pt-8">
-            <MockupFrame
-              className="animate-appear opacity-0 delay-700"
-              size="small"
-            >
-              <Mockup
-                type="responsive"
-                // This class string mimics the Launch UI snippet:
-                // shadow-2xl, border-border/70, rounded-md
-                className="flex relative z-10 overflow-hidden shadow-2xl border border-border/70 dark:border-border/5 dark:border-t-border/15 rounded-md bg-background"
-              >
-                {mockup}
-              </Mockup>
-            </MockupFrame>
+          <div className="relative w-full pt-6 sm:pt-8 sm:px-12 md:px-24">
+            {mockup}
             <Glow
               variant="top"
               className="animate-appear-zoom opacity-0 delay-1000"
