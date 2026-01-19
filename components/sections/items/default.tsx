@@ -1,16 +1,16 @@
 import {
-  BlocksIcon,
-  EclipseIcon,
-  FastForwardIcon,
+  FileTextIcon,
+  ImageIcon,
   LanguagesIcon,
-  MonitorSmartphoneIcon,
-  RocketIcon,
-  ScanFaceIcon,
-  SquarePenIcon,
+  MessageSquareTextIcon,
+  MicIcon,
+  SmartphoneIcon,
+  SparklesIcon,
+  YoutubeIcon,
 } from "lucide-react";
 import { ReactNode } from "react";
 
-import { Item, ItemDescription,ItemIcon, ItemTitle } from "../../ui/item";
+import { Item, ItemDescription, ItemIcon, ItemTitle } from "../../ui/item";
 import { Section } from "../../ui/section";
 
 interface ItemProps {
@@ -26,50 +26,50 @@ interface ItemsProps {
 }
 
 export default function Items({
-  title = "Everything you need. Nothing you don't.",
+  title = "Turn any content into knowledge.",
   items = [
     {
-      title: "Accessibility first",
-      description: "Fully WCAG 2.0 compliant, made with best a11y practices",
-      icon: <ScanFaceIcon className="size-5 stroke-1" />,
+      title: "Video to Notes",
+      description: "Paste a YouTube link and get a comprehensive summary, transcript, and key points in seconds.",
+      icon: <YoutubeIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Responsive design",
-      description: "Looks and works great on any device and screen size",
-      icon: <MonitorSmartphoneIcon className="size-5 stroke-1" />,
+      title: "Smart PDF Reader",
+      description: "Upload textbooks, research papers, or slides. We extract the text and organize the insights for you.",
+      icon: <FileTextIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Light and dark mode",
+      title: "Audio Transcription",
       description:
-        "Seamless switching between color schemes, 6 themes included",
-      icon: <EclipseIcon className="size-5 stroke-1" />,
+        "Record lectures or upload audio files. Perfect for meetings, seminars, and voice memos.",
+      icon: <MicIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Easy to customize",
-      description: "Flexible options to match your product or brand",
-      icon: <BlocksIcon className="size-5 stroke-1" />,
+      title: "Visual Learning",
+      description: "Snap a photo of the whiteboard or upload screenshots. Our AI analyzes images to extract information.",
+      icon: <ImageIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Top-level performance",
-      description: "Made for lightning-fast load times and smooth interactions",
-      icon: <FastForwardIcon className="size-5 stroke-1" />,
+      title: "Interactive AI Chat",
+      description: "Don't just read—ask. Chat with your notes to clear up doubts or dig deeper into specific topics.",
+      icon: <MessageSquareTextIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Production ready",
-      description: "Thoroughly tested and launch-prepared",
-      icon: <RocketIcon className="size-5 stroke-1" />,
+      title: "Custom Prompts",
+      description: "Tailor the output to your needs. Ask for a glossary, a 5th-grade explanation, or a specific summary format.",
+      icon: <SparklesIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Made for localisation",
+      title: "Multi-language Support",
       description:
-        "Easy to implement support for multiple languages and regions",
+        "Study materials in any language. Translate complex texts or generate notes in your native tongue.",
       icon: <LanguagesIcon className="size-5 stroke-1" />,
     },
     {
-      title: "CMS friendly",
+      title: "Sync Across Devices",
       description:
-        "Built to work with your any headless content management system",
-      icon: <SquarePenIcon className="size-5 stroke-1" />,
+        "Start on the web, review on the go. Your library and study progress sync seamlessly to our mobile app.",
+      icon: <SmartphoneIcon className="size-5 stroke-1" />,
     },
   ],
   className,

@@ -1,62 +1,109 @@
 import { ReactNode } from "react";
+import { 
+  FileTextIcon, 
+  HardDriveUploadIcon, 
+  InfinityIcon, 
+  MicIcon, 
+  YoutubeIcon,
+  LucideIcon
+} from "lucide-react";
 
-import { siteConfig } from "@/config/site";
-
-import Figma from "../../logos/figma";
-import React from "../../logos/react";
-import ShadcnUi from "../../logos/shadcn-ui";
-import Tailwind from "../../logos/tailwind";
-import TypeScript from "../../logos/typescript";
 import { Badge } from "../../ui/badge";
-import Logo from "../../ui/logo";
 import { Section } from "../../ui/section";
+import { cn } from "@/lib/utils";
 
-interface LogosProps {
+// --- Custom Item Component for Organic Look ---
+interface LimitItemProps {
+  icon: LucideIcon;
+  label: string;
+  limit: string;
+}
+
+const LimitItem = ({ icon: Icon, label, limit }: LimitItemProps) => (
+  <div className="group flex flex-col items-center gap-3">
+    {/* Organic Icon Container */}
+    <div className="flex size-12 items-center justify-center rounded-2xl border border-border/40 bg-background/50 shadow-sm transition-all duration-300 group-hover:border-foreground/20 group-hover:bg-accent group-hover:shadow-md">
+      <Icon className="size-6 text-muted-foreground transition-colors group-hover:text-foreground" />
+    </div>
+    
+    <div className="flex flex-col items-center gap-1.5">
+      <span className="text-sm font-medium text-foreground">{label}</span>
+      {/* Subtle, Organic Badge */}
+      <span className="inline-flex items-center rounded-full border border-border/50 bg-secondary/30 px-2 py-0.5 text-[10px] font-medium text-muted-foreground backdrop-blur-sm transition-colors group-hover:bg-secondary/50 group-hover:text-secondary-foreground">
+        {limit}
+      </span>
+    </div>
+  </div>
+);
+
+// --- Main Component ---
+
+interface CapabilitiesProps {
   title?: string;
   badge?: ReactNode | false;
-  logos?: ReactNode[] | false;
   className?: string;
 }
 
-export default function Logos({
-  title = "Built with industry-standard tools and best practices",
+export default function Capabilities({
+  title = "Generous limits for deep work",
   badge = (
-    <Badge variant="outline" className="border-brand/30 text-brand">
-      Last updated: {siteConfig.stats.updated}
+    <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5">
+      Powerhouse Capabilities
     </Badge>
   ),
-  logos = [
-    <Logo key="figma" image={Figma} name="Figma" />,
-    <Logo key="react" image={React} name="React" version="19.2.1" />,
-    <Logo
-      key="typescript"
-      image={TypeScript}
-      name="TypeScript"
-      version="5.9.3"
-    />,
-    <Logo
-      key="shadcn"
-      image={ShadcnUi}
-      name="Shadcn/ui"
-      version="3.6.3"
-      badge="New"
-    />,
-    <Logo key="tailwind" image={Tailwind} name="Tailwind" version="4.1.18" />,
-  ],
   className,
-}: LogosProps) {
+}: CapabilitiesProps) {
+  
+  const limits = [
+    {
+      icon: YoutubeIcon,
+      label: "YouTube",
+      limit: "Max 2 Hours",
+    },
+    {
+      icon: MicIcon,
+      label: "Audio",
+      limit: "Max 3 Hours",
+    },
+    {
+      icon: FileTextIcon,
+      label: "Documents",
+      limit: "Up to 500 Pages",
+    },
+    {
+      icon: HardDriveUploadIcon,
+      label: "Uploads",
+      limit: "Max 100 MB",
+    },
+    {
+      icon: InfinityIcon,
+      label: "Context",
+      limit: "Unlimited",
+    },
+  ];
+
   return (
     <Section className={className}>
-      <div className="max-w-container mx-auto flex flex-col items-center gap-8 text-center">
-        <div className="flex flex-col items-center gap-6">
+      <div className="max-w-container mx-auto flex flex-col items-center gap-10 text-center">
+        {/* Header Section */}
+        <div className="flex flex-col items-center gap-4">
           {badge !== false && badge}
-          <h2 className="text-md font-semibold sm:text-2xl">{title}</h2>
+          <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl text-balance">
+            {title}
+          </h2>
         </div>
-        {logos !== false && logos.length > 0 && (
-          <div className="flex flex-wrap items-center justify-center gap-8">
-            {logos}
-          </div>
-        )}
+
+        {/* Limits Grid - using flex wrap to center naturally */}
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-10 sm:gap-x-16">
+          {limits.map((item, index) => (
+            <LimitItem 
+              key={index} 
+              icon={item.icon} 
+              label={item.label} 
+              limit={item.limit} 
+            />
+          ))}
+        </div>
       </div>
     </Section>
   );

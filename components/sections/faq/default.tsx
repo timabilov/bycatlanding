@@ -24,121 +24,90 @@ interface FAQProps {
 }
 
 export default function FAQ({
-  title = "Questions and Answers",
+  title = "Frequently Asked Questions",
   items = [
     {
-      question:
-        "Why building a great landing page is critical for your business?",
+      question: "What formats can Bycat AI process?",
       answer: (
         <>
           <p className="text-muted-foreground mb-4 max-w-[640px] text-balance">
-            In today&apos;s AI-driven world, standing out is harder than ever.
-            While anyone can build a product, a professional landing page makes
-            the difference between success and failure.
+            Bycat AI is designed to be your all-in-one study companion. We currently support:
           </p>
-          <p className="text-muted-foreground mb-4 max-w-[640px] text-balance">
-            Bycat AI helps you ship faster without compromising on quality.
+          <ul className="list-disc pl-5 text-muted-foreground mb-4 space-y-1">
+            <li><strong>YouTube Videos:</strong> Just paste the URL.</li>
+            <li><strong>Documents:</strong> PDF files, slides, and text documents.</li>
+            <li><strong>Audio:</strong> Recorded lectures, voice memos, and meetings (MP3, WAV, etc.).</li>
+            <li><strong>Images:</strong> Photos of whiteboards, handwritten notes, or textbook pages.</li>
+          </ul>
+        </>
+      ),
+    },
+    {
+      question: "How accurate are the notes and summaries?",
+      answer: (
+        <>
+          <p className="text-muted-foreground mb-4 max-w-[600px]">
+            We utilize state-of-the-art AI models (similar to GPT-4o and Claude 3.5) to ensure high accuracy and context awareness.
+          </p>
+          <p className="text-muted-foreground mb-4 max-w-[600px]">
+            The AI captures key concepts, definitions, and timelines. However, we always recommend reviewing the generated notes—which you can easily edit and refine within our platform.
           </p>
         </>
       ),
     },
     {
-      question: "Why use Bycat AI instead of a no-code tool?",
+      question: "Can I use Bycat AI for languages other than English?",
       answer: (
         <>
-          <p className="text-muted-foreground mb-4 max-w-[600px]">
-            No-code tools lock you into their ecosystem with recurring fees and
-            limited control. They often come with performance issues and make it
-            difficult to integrate with your product.
+          <p className="text-muted-foreground mb-4 max-w-[580px]">
+            Absolutely! Bycat AI is multilingual. You can upload content in one language and ask the AI to generate notes, summaries, or quizzes in another.
           </p>
-          <p className="text-muted-foreground mb-4 max-w-[600px]">
-            You can&apos;t even change your hosting provider and basic things
-            like web analytics come as extra costs and paid add-ons.
-          </p>
-          <p className="text-muted-foreground mb-4 max-w-[600px]">
-            What might seem like a convenient solution today could paint you
-            into a corner tomorrow, limiting your ability to scale and adapt.
-            Bycat AI gives you full control of your code while maintaining
-            professional quality.
+          <p className="text-muted-foreground mb-4 max-w-[580px]">
+            This is perfect for international students or anyone learning a new language.
           </p>
         </>
       ),
     },
     {
-      question:
-        "How Bycat AI is different from other components libraries and templates?",
+      question: 'Is there a free version available?',
       answer: (
         <>
           <p className="text-muted-foreground mb-4 max-w-[580px]">
-            Bycat AI stands out with premium design quality and delightful
-            touches of custom animations and illustrations.
+            Yes, Bycat AI offers a generous free tier. You can process a limited number of files and generate quizzes daily without paying a cent.
           </p>
           <p className="text-muted-foreground mb-4 max-w-[580px]">
-            All components are carefully crafted to help position your product
-            as a professional tool, avoiding the generic template look.
-          </p>
-          <p className="text-muted-foreground mb-4 max-w-[640px] text-balance">
-            Unlike many libraries that rely on outdated CSS practices and old
-            dependencies, Bycat AI is built with modern technologies and best
-            practices in mind.
-          </p>
-        </>
-      ),
-    },
-    {
-      question: 'Why exactly does it mean that "The code is yours"?',
-      answer: (
-        <>
-          <p className="text-muted-foreground mb-4 max-w-[580px]">
-            The basic version of Bycat AI is open-source and free forever,
-            under a do-whatever-you-want license.
-          </p>
-          <p className="text-muted-foreground mb-4 max-w-[580px]">
-            The pro version that contains more components and options is a
-            one-time purchase that gives you lifetime access to all current and
-            future content. Use it for unlimited personal and commercial
-            projects - no recurring fees or restrictions.
-          </p>
-          <p className="text-muted-foreground mb-4 max-w-[580px]">
-            For complete details about licensing and usage rights, check out{" "}
+            For power users who need unlimited uploads, longer audio processing, and advanced reasoning models, we offer a Pro plan. Check out our{" "}
             <Link href="/pricing" className="text-foreground underline">
-              the pricing page
-            </Link>
-            .
+              pricing page
+            </Link>{" "}
+            for details.
           </p>
         </>
       ),
     },
     {
-      question: "Are Figma files included?",
+      question: "Can I interact with the notes after they are generated?",
       answer: (
         <p className="text-muted-foreground mb-4 max-w-[580px]">
-          Yes! The complete Bycat AI template is available for free on the{" "}
-          <Link
-            href="https://www.figma.com/community/file/1420131743903900629/launch-ui-landing-page-components-ui-kit"
-            className="text-foreground underline"
-          >
-            Figma community
-          </Link>
-          .
+          Yes. Once your content is processed, you gain access to an <strong>AI Chat</strong> interface contextually aware of that specific document. You can ask for clarifications, specific examples, or even ask it to rewrite sections in a simpler tone.
         </p>
       ),
     },
     {
-      question: "Can I get a discount?",
+      question: "My lecture files are large. What are the limits?",
       answer: (
         <>
           <p className="text-muted-foreground mb-4 max-w-[580px]">
-            Actually, yes! I&apos;m always acively looking for beta testers of
-            new features. If you are interested in exchanging feedback for a
-            discount, please contact me via{" "}
-            <a
-              href={siteConfig.links.email}
-              className="underline underline-offset-2"
+            We know lectures can be long. Bycat AI supports YouTube videos up to <strong>2 hours</strong> and audio files up to <strong>3 hours</strong> long.
+          </p>
+          <p className="text-muted-foreground mb-4 max-w-[580px]">
+            For PDFs, we can process documents up to 500 pages. If you have specific enterprise needs, please{" "}
+             <a
+              href="mailto:support@bycat.ai"
+              className="underline underline-offset-2 text-foreground"
             >
-              email
-            </a>
-            .
+              contact us
+            </a>.
           </p>
         </>
       ),
@@ -159,7 +128,7 @@ export default function FAQ({
                 key={index}
                 value={item.value || `item-${index + 1}`}
               >
-                <AccordionTrigger>{item.question}</AccordionTrigger>
+                <AccordionTrigger className="text-left">{item.question}</AccordionTrigger>
                 <AccordionContent>{item.answer}</AccordionContent>
               </AccordionItem>
             ))}

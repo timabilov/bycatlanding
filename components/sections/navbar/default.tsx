@@ -18,6 +18,7 @@ import {
 import Navigation from "../../ui/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { ThemeToggleIcon } from "../../ui/theme-toggle-icon";
+import { DiscordLogoIcon } from "@radix-ui/react-icons";
 
 interface NavbarLink {
   text: string;
@@ -49,11 +50,11 @@ export default function Navbar({
   name = "Bycat AI",
   homeUrl = siteConfig.url,
   mobileLinks = [
-    { text: "Docs", href: siteConfig.navigation.docs },
-    { text: "Components", href: siteConfig.navigation.components },
-    { text: "Blocks", href: siteConfig.navigation.blocks },
-    { text: "Illustrations", href: siteConfig.navigation.illustrations },
-    { text: "Templates", href: siteConfig.navigation.templates },
+    // { text: "Docs", href: siteConfig.navigation.docs },
+    // { text: "Components", href: siteConfig.navigation.components },
+    // { text: "Blocks", href: siteConfig.navigation.blocks },
+    // { text: "Illustrations", href: siteConfig.navigation.illustrations },
+    { text: "Blogs", href: siteConfig.navigation.templates },
     { text: "Pricing", href: siteConfig.navigation.pricing },
   ],
   actions = [
@@ -82,45 +83,45 @@ export default function Navbar({
               {logo}
               {name}
             </a>
-            <Badge
+            {/* <Badge
               variant="outline"
               className="ml-2 hidden text-xs font-normal md:inline-flex"
             >
               {siteConfig.version}
-            </Badge>
+            </Badge> */}
             {showNavigation && (
               customNavigation || (
                 <nav className="ml-6 hidden items-center gap-6 md:flex">
-                  <a
+                  {/* <a
                     href={siteConfig.navigation.docs}
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                   >
                     Docs
-                  </a>
-                  <a
+                  </a> */}
+                  {/* <a
                     href={siteConfig.navigation.components}
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                   >
                     Components
-                  </a>
+                  </a> */}
                   <a
                     href={siteConfig.navigation.blocks}
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                   >
-                    Blocks
+                    Blogs
                   </a>
-                  <a
+                  {/* <a
                     href={siteConfig.navigation.illustrations}
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                   >
                     Illustrations
-                  </a>
-                  <a
+                  </a> */}
+                  {/* <a
                     href={siteConfig.navigation.templates}
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                   >
                     Templates
-                  </a>
+                  </a> */}
                   <a
                     href={siteConfig.navigation.pricing}
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
@@ -141,7 +142,7 @@ export default function Navbar({
                 aria-label="GitHub"
               >
                 <a href={siteConfig.links.github} target="_blank" rel="noopener noreferrer">
-                  <Github className="size-5" />
+                  <DiscordLogoIcon className="size-5" />
                 </a>
               </Button>
               <Button
