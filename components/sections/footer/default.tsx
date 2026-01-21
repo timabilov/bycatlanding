@@ -11,6 +11,7 @@ import {
   FooterContent,
 } from "../../ui/footer";
 import { ModeToggle } from "../../ui/mode-toggle";
+import Glow from "@/components/ui/glow";
 
 interface FooterLink {
   text: string;
@@ -30,11 +31,13 @@ interface FooterProps {
   policies?: FooterLink[];
   showModeToggle?: boolean;
   className?: string;
+  glow?: boolean;
 }
 
 export default function FooterSection({
   logo = <LaunchUI />,
   name = "Bycat AI",
+  glow,
   columns = [
     {
       title: "Product",
@@ -62,8 +65,8 @@ export default function FooterSection({
   ],
   copyright = "© 2025 Mikołaj Dobrucki. All rights reserved",
   policies = [
-    { text: "Privacy Policy", href: siteConfig.url },
-    { text: "Terms of Service", href: siteConfig.url },
+    { text: "Privacy Policy", href: "/privacy-policy" },
+    { text: "Terms of Service", href: "/terms-conditions" },
   ],
   showModeToggle = true,
   className,
@@ -72,6 +75,8 @@ export default function FooterSection({
     <footer className={cn("bg-background w-full px-4", className)}>
       <div className="max-w-container mx-auto">
         <Footer>
+            <Glow variant="below" className="animate-appear-zoom  delay-1000 z-0 pointer-events-none opacity-50" />
+
           <FooterContent>
             <FooterColumn className="col-span-2 sm:col-span-3 md:col-span-1">
               <div className="flex items-center gap-2">
