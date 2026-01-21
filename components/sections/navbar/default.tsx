@@ -48,7 +48,7 @@ interface NavbarProps {
 export default function Navbar({
   logo = <LaunchUI />,
   name = "Bycat AI",
-  homeUrl = siteConfig.url,
+  homeUrl = "/",
   mobileLinks = [
     // { text: "Docs", href: siteConfig.navigation.docs },
     // { text: "Components", href: siteConfig.navigation.components },
@@ -56,6 +56,8 @@ export default function Navbar({
     // { text: "Illustrations", href: siteConfig.navigation.illustrations },
     { text: "Blogs", href: siteConfig.navigation.templates },
     { text: "Pricing", href: siteConfig.navigation.pricing },
+    { text: "Terms & Conditions", href: siteConfig.navigation.pricing },
+    { text: "Privacy policy", href: siteConfig.navigation.pricing },
   ],
   actions = [
     { text: "Sign in", href: siteConfig.url, isButton: false },
@@ -127,6 +129,18 @@ export default function Navbar({
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                   >
                     Pricing
+                  </a>
+                  <a
+                    href={siteConfig.navigation.privacy}
+                    className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+                  >
+                    Privacy policy
+                  </a>
+                  <a
+                    href={siteConfig.navigation.terms}
+                    className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+                  >
+                    Terms & conditions
                   </a>
                 </nav>
               )

@@ -14,6 +14,8 @@ export const siteConfig = {
     illustrations: "/illustrations",
     templates: "/templates",
     pricing: "/pricing",
+    terms: "/terms-conditions",
+    privacy: "/privacy-policy"
   },
   links: {
     twitter: "https://twitter.com/mikolajdobrucki",

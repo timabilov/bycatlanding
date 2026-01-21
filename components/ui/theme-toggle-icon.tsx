@@ -26,9 +26,11 @@ export function ThemeToggleIcon() {
   const cycleTheme = () => {
     if (theme === "light") {
       setTheme("dark");
-    } else if (theme === "dark") {
-      setTheme("system");
-    } else {
+    } 
+    // else if (theme === "dark") {
+    //   setTheme("light");
+    // } 
+    else {
       setTheme("light");
     }
   };

@@ -75,8 +75,10 @@ export default function FooterSection({
     <footer className={cn("bg-background w-full px-4", className)}>
       <div className="max-w-container mx-auto">
         <Footer>
-            <Glow variant="below" className="animate-appear-zoom  delay-1000 z-0 pointer-events-none opacity-50" />
-
+          {
+            glow &&  <Glow variant="below" className="animate-appear-zoom  delay-1000 z-0 pointer-events-none opacity-50" />
+          }
+           
           <FooterContent>
             <FooterColumn className="col-span-2 sm:col-span-3 md:col-span-1">
               <div className="flex items-center gap-2">
