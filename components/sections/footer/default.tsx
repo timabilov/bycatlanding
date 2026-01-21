@@ -39,18 +39,17 @@ export default function FooterSection({
   name = "Bycat AI",
   glow,
   columns = [
-    {
-      title: "Product",
-      links: [
-        { text: "Changelog", href: siteConfig.url },
-        { text: "Documentation", href: siteConfig.url },
-      ],
-    },
+    // {
+    //   title: "Product",
+    //   links: [
+    //     { text: "Changelog", href: siteConfig.url },
+    //     { text: "Documentation", href: siteConfig.url },
+    //   ],
+    // },
     {
       title: "Company",
       links: [
-        { text: "About", href: siteConfig.url },
-        { text: "Careers", href: siteConfig.url },
+        { text: "Skripe", href: siteConfig.links.skripe },
         { text: "Blog", href: siteConfig.url },
       ],
     },
@@ -63,7 +62,7 @@ export default function FooterSection({
       ],
     },
   ],
-  copyright = "© 2025 Mikołaj Dobrucki. All rights reserved",
+  copyright = "© 2025 Skripe.az All rights reserved",
   policies = [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Service", href: "/terms-conditions" },
