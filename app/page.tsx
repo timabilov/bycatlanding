@@ -1,3 +1,4 @@
+import Banner from "@/components/ui/banner";
 import CTA from "../components/sections/cta/default";
 import FAQ from "../components/sections/faq/default";
 import Footer from "../components/sections/footer/default";
@@ -14,6 +15,9 @@ export default function Home() {
     <main className="bg-background text-foreground min-h-screen w-full">
       <GridBackground />
       <Navbar />
+            <div className="w-full flex justify-center mt-4" style={{marginBottom: "-100px"}}>
+              <Banner />
+            </div>
       <Hero />
       <Logos />
       <Items />

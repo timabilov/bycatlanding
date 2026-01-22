@@ -17,9 +17,9 @@ import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import GridBackground from "@/components/ui/grid-background";
 import Navbar from "@/components/sections/navbar/default";
-import { Footer, FooterContent, FooterColumn, FooterBottom } from "@/components/ui/footer";
 import Glow from "@/components/ui/glow";
 import { cn } from "@/lib/utils";
+import Footer from "./../../components/sections/footer/default";
 
 export default function AccountRemoval() {
   const [copied, setCopied] = useState(false);
@@ -225,56 +225,8 @@ export default function AccountRemoval() {
         </div>
       </Section>
       
-      <SiteFooter />
+      <Footer  glow className="border-t border-border/40 bg-background/50 backdrop-blur-xl mt-auto relative overflow-hidden"/>
     </main>
   );
 }
 
-function SiteFooter() {
-  return (
-    <Footer className="border-t border-border/40 bg-background/50 backdrop-blur-xl mt-auto relative overflow-hidden">
-      <Glow 
-        variant="bottom" 
-        className="pointer-events-none z-0 opacity-60" 
-      />
-
-      <div className="container mx-auto px-4 relative z-10">
-        <FooterContent>
-          <FooterColumn className="col-span-2 sm:col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                 <Shield className="size-4 text-primary" />
-              </div>
-              <span className="text-lg font-bold">Leitner AI</span>
-            </div>
-            <p className="text-sm text-muted-foreground max-w-xs">
-              The smartest way to study. Turn any content into interactive quizzes and notes instantly.
-            </p>
-          </FooterColumn>
-
-          <FooterColumn>
-            <h3 className="font-semibold text-foreground">Product</h3>
-            <Link href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">Features</Link>
-            <Link href="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link>
-          </FooterColumn>
-
-          <FooterColumn>
-            <h3 className="font-semibold text-foreground">Company</h3>
-            <a href="https://skripe.com" target="_blank" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Skripe</a>
-            <a href="mailto:support@skripe.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</a>
-          </FooterColumn>
-
-          <FooterColumn>
-            <h3 className="font-semibold text-foreground">Legal</h3>
-            <Link href="/privacy-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms</Link>
-          </FooterColumn>
-        </FooterContent>
-
-        <FooterBottom>
-          <p>© {new Date().getFullYear()} SKRIPE AZ LLC. All rights reserved.</p>
-        </FooterBottom>
-      </div>
-    </Footer>
-  );
-}

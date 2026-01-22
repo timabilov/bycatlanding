@@ -13,6 +13,7 @@ import { Button, buttonVariants } from "../../ui/button";
 import Glow from "../../ui/glow";
 import HeroIllustration from "../../ui/hero-illustration";
 import { Section } from "../../ui/section";
+import Banner from "@/components/ui/banner";
 
 // --- 1. STATIC 3D STACK COMPONENT (View from Left) ---
 
@@ -152,21 +153,13 @@ export default function Hero({
       icon: <Globe className="mr-2 size-4" />,
       className: "h-12 px-6 text-base",
     },
-    {
-      href: "#",
+     {
+      href: siteConfig.getStartedUrl,
+      text: "Appstore",
       variant: "outline",
-      className: "h-12 px-5 flex items-center gap-3",
-      text: (
-        <div className="flex items-center gap-3">
-          <AppleLogo className="size-5 fill-current mb-0.5" />
-          <div className="flex flex-col items-start leading-none">
-            <span className="text-base font-bold ">
-              Download on the
-            </span>
-          </div>
-        </div>
-      ),
-    },
+      icon: <AppleLogo className="mr-2 size-4" />,
+      className: "h-12 px-6 text-base",
+    }
   ],
   className,
 }: HeroProps) {
@@ -186,6 +179,8 @@ export default function Hero({
                 {badge}
               </div>
             )}
+
+            
             
             <h1 className="animate-appear relative z-10 text-4xl font-bold leading-tight text-foreground opacity-0 sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
               {title}

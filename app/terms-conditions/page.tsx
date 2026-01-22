@@ -208,7 +208,6 @@ export default function TermsAndConditions() {
       </div>
     </Section>
      <Footer glow className="border-t border-border/40 bg-background/50 backdrop-blur-xl mt-auto relative overflow-hidden"/>
-
     </main>
   );
 }
