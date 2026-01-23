@@ -47,7 +47,7 @@ interface CapabilitiesProps {
 export default function Capabilities({
   title = "Generous limits for deep work",
   badge = (
-    <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5">
+    <Badge variant="outline" className=" shadow-primary/10 border-primary/20 text-primary bg-primary/5 shadow-lg">
       Powerhouse Capabilities
     </Badge>
   ),

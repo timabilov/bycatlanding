@@ -121,8 +121,8 @@ interface HeroProps {
 }
 
 export default function Hero({
-  title = "Your secret to smarter studying",
-  description = "Professionally designed blocks and templates built with React, Shadcn/ui and Tailwind that will help your product stand out.",
+  title = "Designed to fit every learning use case",
+  description = "Platform focused on your weakest areas! With Baycat.ai system platform identifies and drills your weakest areas, making your study sessions shorter and more effective.",
   
   // *** MOCKUP SECTION REPLACED ***
   mockup = (
