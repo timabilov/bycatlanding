@@ -3,15 +3,26 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Timer } from "lucide-react";
 
-export default function Banner() {
+// 1. Define the props to accept the API response
+interface BannerProps {
+  promoData: {
+    claim_until: string;
+    // You can add other properties here if your API returns them (e.g., discount amount)
+  };
+}
+
+export default function Banner({ promoData }: BannerProps) {
   const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
   useEffect(() => {
     setMounted(true);
 
-    // Target: January 25, 2026
-    const targetDate = new Date("2026-01-25T23:59:59").getTime();
+    // 2. If there's no date provided, do nothing
+    if (!promoData?.claim_until) return;
+
+    // 3. Use the dynamic date from the API response
+    const targetDate = new Date(promoData.claim_until).getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -31,18 +42,13 @@ export default function Banner() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [promoData]); // Re-run if promoData changes
 
+  // Helper to keep numbers as double digits (e.g., 05 instead of 5)
   const format = (n: number) => n.toString().padStart(2, "0");
 
   return (
     <>
-      {/* 
-          INTENSE SHAKE ANIMATION 
-          - Increased angle to 25deg
-          - Added slight X-axis movement
-          - Sped up to 0.5s
-      */}
       <style jsx global>{`
         @keyframes wiggle {
           0%, 100% { transform: rotate(0deg) translateX(0); }
@@ -54,7 +60,7 @@ export default function Banner() {
         }
       `}</style>
 
-      <div className="flex justify-center mb-8 fade-in animate-in zoom-in-95 duration-500">
+      <div className="flex justify-center mb-2 md:mb-8 fade-in animate-in zoom-in-95 duration-500">
         <a
           href="#pricing"
           className="group shadow-lg shadow-pink-500/10 relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 items-center gap-2 border border-pink-500/20 bg-pink-500/5 text-sm font-medium text-primary"
@@ -81,9 +87,10 @@ export default function Banner() {
                   <Timer className="size-3.5 text-pink-500 animate-wiggle" />
                   
                   <span className="tabular-nums tracking-tight">
+                    {/* 4. Applied your 'format' function here so it stays a consistent width */}
                     {mounted 
-                      ? `${timeLeft.d} days ${timeLeft.h} h ${timeLeft.m} m ${timeLeft.s} s` 
-                      : "00d 00h 00m 00s"}
+                      ? `${timeLeft.d} days ${format(timeLeft.h)} h ${format(timeLeft.m)} m ${format(timeLeft.s)} s` 
+                      : "00 days 00 h 00 m 00 s"}
                   </span>
                 </span>
               </span>

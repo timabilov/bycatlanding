@@ -122,7 +122,7 @@ interface HeroProps {
 
 export default function Hero({
   title = "Designed to fit every learning use case",
-  description = "Platform focused on your weakest areas! With Baycat.ai system platform identifies and drills your weakest areas, making your study sessions shorter and more effective.",
+  description = "Platform focused on your weakest areas! With Bycat.ai system platform identifies and drills your weakest areas, making your study sessions shorter and more effective.",
   
   // *** MOCKUP SECTION REPLACED ***
   mockup = (
@@ -154,7 +154,7 @@ export default function Hero({
       className: "h-12 px-6 text-base",
     },
      {
-      href: siteConfig.getStartedUrl,
+      href: "https://apps.apple.com/us/app/leitner-ai-note-quiz-alerts/id6747087851",
       text: "Appstore",
       variant: "outline",
       icon: <AppleLogo className="mr-2 size-4" />,
@@ -166,7 +166,7 @@ export default function Hero({
   return (
     <Section
       className={cn(
-        "fade-bottom overflow-hidden px-0 pb-0 pt-8 sm:pb-0 sm:pt-12 md:pb-0",
+        "fade-bottom overflow-hidden px-0 pb-0 pt-8 sm:pb-0 sm:pt-12 md:pb-0 md:py-10",
         className,
       )}
     >

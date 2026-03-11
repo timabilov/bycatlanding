@@ -1,89 +1,165 @@
 "use client";
 
-import { Check, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { Check, Sparkles, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { initializePaddle, Paddle } from "@paddle/paddle-js";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/utils";
 
-// --- Types ---
-interface PlanFeature {
-  text: string;
-  included: boolean;
-}
-
-interface Plan {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  period: string;
-  features: PlanFeature[];
-  popular?: boolean;
-  buttonText: string;
-  href: string;
-}
-
-// --- Data ---
-const plans: Plan[] = [
+// --- Pricing Data Sources ---
+export const PRICING_TIERS_CLAIM = [
   {
-    id: "weekly",
-    name: "Weekly Pass",
-    description: "Cramming for finals",
-    price: "$10",
-    period: "/week",
-    buttonText: "Start 7-Day Access",
-    href: "/signup?plan=weekly",
-    features: [
-      { text: "Unlimited notes", included: true },
-      { text: "Unlimited videos", included: true },
-      { text: "Unlimited quizzes & flashcards", included: true },
-      { text: "Quiz notifications", included: true },
-    ],
+    key: "weekly",
+    id: "pro_weekly",
+    unit: "week",
+    name: "Weekly",
+    claimOffer: "Free first week",
+    defaultPrice: 5.99,
+    originalPrice: 0,
+    description: "Perfect for short-term projects.",
+    discountId: "dsc_01kj5c3fkwfqcq1wdhect5nr19",
+    priceId: "pri_01kaxbbdytvqamegsd7e486r59", 
+    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
   },
   {
-    id: "monthly",
+    key: "monthly",
+    id: "pro_monthly",
+    unit: "month",
     name: "Monthly",
-    description: "Semester support",
-    price: "$30",
-    period: "/mo",
-    buttonText: "Get Monthly",
-    popular: true,
-    href: "/signup?plan=monthly",
-    features: [
-      { text: "Unlimited notes", included: true },
-      { text: "Unlimited videos", included: true },
-      { text: "Unlimited quizzes & flashcards", included: true },
-      { text: "Quiz notifications", included: true },
-    ],
+    claimOffer: "+42% discount",
+    defaultPrice: 11.99,
+    originalPrice: 6.99,
+    discount: "50% OFF",
+    description: "Recommended for ongoing usage.",
+    discountId: 'dsc_01kjt6watya70vrj8ctk8mbqpd',
+    priceId: "pri_01kjzazeat2rnb5vbaq9swatss", 
+    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+    isPopular: true, 
   },
   {
-    id: "annual",
+    key: "annual",
+    id: "pro_annual",
+    unit: "mo", // displaying as monthly equivalent
     name: "Annual",
-    description: "Best value for GPA",
-    price: "$229",
-    period: "/mo",
-    popular: false,
-    buttonText: "Start 3-Day Free Trial",
-    href: "/signup?plan=annual",
-    features: [
-      { text: "Unlimited notes", included: true },
-      { text: "Unlimited videos", included: true },
-      { text: "Unlimited quizzes & flashcards", included: true },
-      { text: "Quiz notifications", included: true },
-    ],
+    defaultPrice: 79.99,
+    originalPrice: 65.89, 
+    discount: "80% OFF",
+    claimOffer: "+2 month free",
+    discountId: 'dsc_01kjt7062j64y950pwkfxttr8s',
+    priceId: "pri_01kjzb2btfc48bwr1s3jwjfc73",
+    description: "Best value. Save significantly.",
+    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
   },
 ];
 
-export default function Pricing() {
+export const PRICING_TIERS = [
+  {
+    key: "weekly",
+    id: "pro_weekly",
+    unit: "week",
+    name: "Weekly",
+    defaultPrice: null, // No strike-through for normal weekly
+    originalPrice: 5.99,
+    description: "Perfect for short-term projects.",
+    priceId: "pri_01kaxbbdytvqamegsd7e486r59", 
+    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+  },
+  {
+    key: "monthly",
+    unit: "month",
+    id: "pro_monthly",
+    name: "Monthly",
+    defaultPrice: 34.99,
+    originalPrice: 11.99,
+    discountId: 'dsc_01kbaks5he1g277bedvg06xs1m',
+    discount: "50% OFF",
+    description: "Recommended for ongoing usage.",
+    priceId: "pri_01kaxb9tc7q2kqmh0c3rhda462", 
+    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+    isPopular: true, 
+  },
+  {
+    key: "annual",
+    id: "pro_annual",
+    name: "Annual",
+    unit: "mo", // displaying as monthly equivalent
+    defaultPrice: 239.99,
+    originalPrice: 79.99, 
+    discount: "80% OFF",
+    discountId: 'dsc_01kbaksng47cf7gsr4wht0xrdq',
+    description: "Best value. Save significantly.",
+    priceId: "pri_01kaxb7rjs3vkn4dtjrk8x7hmh",
+    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+  },
+];
+
+export default function Pricing({ banner }: { banner?: any }) {
+  const [livePrices, setLivePrices] = useState<Record<string, { current: number; original: number | null }>>({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 1. Determine which data set to use based on the promo banner
+  const hasPromo = !!banner;
+  const activeTiers = PRICING_TIERS;
+
+  useEffect(() => {
+    let paddleInstance: Paddle | undefined;
+
+    const fetchPrices = async () => {
+      try {
+        paddleInstance = await initializePaddle({
+          environment: "production",
+          token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN || "test_token",
+        });
+
+        if (paddleInstance) {
+          const request = {
+            items: activeTiers.map((p) => ({ priceId: p.priceId, quantity: 1 })),
+          };
+
+          const preview = await paddleInstance.PricePreview(request);
+          const priceMap: Record<string, { current: number; original: number | null }> = {};
+
+          preview.data.details.lineItems.forEach((item) => {
+            const plan = activeTiers.find((p) => p.priceId === item.price.id);
+            if (plan) {
+              const currentNum = parseInt(item.formattedTotals.total.replace(/[^0-9]/g, ""), 10) / 100;
+              const subtotalNum = parseInt(item.formattedTotals.subtotal.replace(/[^0-9]/g, ""), 10) / 100;
+              
+              priceMap[plan.key] = {
+                current: currentNum,
+                original: subtotalNum !== currentNum ? subtotalNum : null,
+              };
+            }
+          });
+
+          setLivePrices(priceMap);
+        }
+      } catch (error) {
+        console.error("Failed to fetch Paddle prices:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPrices();
+  }, [hasPromo, activeTiers]);
+
+  // Helper to map buttons back to your old text style
+  const getButtonText = (key: string) => {
+    if (key === "weekly") return "Start 7-Day Access";
+    if (key === "monthly") return "Get Monthly";
+    return "Start 3-Day Free Trial";
+  };
+
   return (
     <Section className="overflow-hidden py-24">
       <div className="container px-4 md:px-6 mx-auto">
         
         {/* Header */}
-        <div className="mx-auto max-w-2xl text-center mb-16">
+        <div className="mx-auto max-w-2xl text-center mb-6" id="#pricing">
           <h2 className="text-3xl font-bold tracking-tight sm:text-5xl mb-4">
             Invest in your grades.
           </h2>
@@ -91,88 +167,136 @@ export default function Pricing() {
             Choose the plan that fits your study schedule. Cancel anytime.
           </p>
         </div>
+        
+        {/* Banner */}
+        {banner}
 
-        {/* Pricing Cards Grid */}
-        {/* Added 'items-center' to align cards vertically in the center */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-center">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={cn(
-                "relative flex flex-col rounded-[32px] border transition-all duration-300",
-                "bg-background/60 backdrop-blur-xl",
-                // Popular card gets more padding (py-12) vs standard (py-8)
-                plan.popular 
-                  ? "py-12 px-8 border-primary/50 shadow-2xl shadow-primary/10 ring-1 ring-primary/20 z-10" 
-                  : "py-8 px-8 border-border/50 shadow-sm hover:shadow-md hover:border-border/80 z-0"
-              )}
-            >
-              {plan.popular && (
-                <div className="absolute -top-4 left-0 right-0 mx-auto w-fit">
-                   <Badge className="bg-primary hover:bg-primary text-primary-foreground px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
-                      <Sparkles className="size-3.5 fill-pink-500 text-pink-500" />
-                      Most Popular
-                   </Badge>
-                </div>
-              )}
+        {/* Pricing Cards Grid (Old Style Layout) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-center mt-8">
+          {activeTiers.map((tier) => {
+            
+            // Highlight Logic: We highlight Annual if promo is active, else fallback to tier.isPopular
+            const isSelected = hasPromo ? tier.key === "annual" : tier.isPopular;
+            
+            // Base Prices from Data
+            let finalOriginal = tier.originalPrice;
+            let finalDefault = tier.defaultPrice;
 
-              {/* Card Header - Centered for balance */}
-              <div className="mb-8 text-center space-y-2">
-                <h3 className="text-lg font-semibold text-muted-foreground uppercase tracking-wider">{plan.name}</h3>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold tracking-tight text-foreground">
-                    {plan.price}
-                  </span>
-                  <span className="text-muted-foreground font-medium">
-                    {plan.period}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground/80">
-                  {plan.description}
-                </p>
-              </div>
+            // Override with Live Paddle Prices if available
+            if (livePrices[tier.key]) {
+              finalOriginal = livePrices[tier.key].current;
+              if (livePrices[tier.key].original) {
+                 finalDefault = livePrices[tier.key].original;
+              }
+            }
 
-              {/* Features List - Left Aligned for readability */}
-              <ul className="mb-8 space-y-4">
-                {plan.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm">
-                    <div className={cn(
-                      "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
-                      feature.included 
-                        ? "bg-primary/10 text-primary" 
-                        : "bg-muted text-muted-foreground/50"
-                    )}>
-                      {feature.included ? (
-                        <Check className="size-3" />
+            return (
+              <div
+                key={tier.id}
+                className={cn(
+                  "relative flex flex-col rounded-[32px] border transition-all duration-300",
+                  "bg-background/60 backdrop-blur-xl h-full",
+                  isSelected 
+                    ? "py-12 px-8 border-primary/50 shadow-2xl shadow-primary/10 ring-1 ring-primary/20 z-10" 
+                    : "py-8 px-8 border-border/50 shadow-sm hover:shadow-md hover:border-border/80 z-0"
+                )}
+              >
+                {/* Top Badge (Old Style) */}
+                {isSelected && (
+                  <div className="absolute -top-4 left-0 right-0 mx-auto w-fit">
+                    <Badge className="bg-primary hover:bg-primary text-primary-foreground px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 whitespace-nowrap">
+                      {(tier as any).claimOffer ? (
+                        <>🎁 {(tier as any).claimOffer}</>
                       ) : (
-                        <div className="size-1 rounded-full bg-current" />
+                        <>
+                          <Sparkles className="size-3.5 fill-pink-500 text-pink-500" />
+                          Most Popular
+                        </>
                       )}
-                    </div>
-                    <span className={cn(
-                      feature.included ? "text-foreground" : "text-muted-foreground/60"
-                    )}>
-                      {feature.text}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+                    </Badge>
+                  </div>
+                )}
 
-              {/* CTA Button */}
-              <div className="mt-auto">
-                <Button
-                  asChild
-                  size="lg"
-                  variant={plan.popular ? "default" : "outline"}
-                  className={cn(
-                    "w-full rounded-2xl h-12 text-base font-medium transition-all",
-                    plan.popular && "shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30"
-                  )}
-                >
-                  <a href={plan.href}>{plan.buttonText}</a>
-                </Button>
+                {/* Card Header */}
+                <div className="mb-8 text-center flex flex-col items-center">
+                  <h3 className="text-lg font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                    {tier.name}
+                  </h3>
+                  
+                  {/* --- PRICE DISPLAY SECTION (With SaaS Line-through) --- */}
+                  <div className="flex flex-col items-center justify-center min-h-[5rem]">
+                    
+                    {/* Strike-through Price */}
+                    {finalDefault !== null && finalDefault !== undefined && (
+                      <span className="text-sm font-medium line-through text-foreground decoration-1 opacity-70 mb-[-4px]">
+                        ${tier.key === "annual" ? (finalDefault / 12).toFixed(2) : finalDefault.toFixed(2)}
+                      </span>
+                    )}
+                    
+                    {/* Main Price */}
+                    <div className="flex items-baseline justify-center gap-1">
+                      <span className={cn(
+                        "text-4xl font-bold tracking-tight text-foreground",
+                        isSelected && "text-pink-500" // Optional: makes the selected price pop
+                      )}>
+                        ${tier.key === "annual" ? (finalOriginal / 12).toFixed(2) : finalOriginal.toFixed(2)}
+                      </span>
+                      <span className="text-muted-foreground font-medium">
+                        /{tier.unit}
+                      </span>
+                    </div>
+
+                    {/* Billed Annually Subtext */}
+                    {tier.key === "annual" && (
+                      <span className="text-xs text-muted-foreground mt-1">
+                        Billed annually (${finalOriginal.toFixed(2)}/yr)
+                      </span>
+                    )}
+
+                  </div>
+
+                  <p className="text-sm text-muted-foreground/80 mt-2">
+                    {tier.description}
+                  </p>
+                </div>
+
+                {/* Features List (Old Style Layout) */}
+                <ul className="mb-8 space-y-4">
+                  {tier.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-3 text-sm">
+                      <div className={cn(
+                        "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
+                        "bg-primary/10 text-primary" // Assuming all features are included in your data
+                      )}>
+                        <Check className="size-3" />
+                      </div>
+                      <span className="text-foreground leading-snug">
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA Button (Old Style) */}
+                <div className="mt-auto">
+                  <Button
+                    asChild
+                    size="lg"
+                    variant={isSelected ? "default" : "outline"}
+                    className={cn(
+                      "w-full rounded-2xl h-12 text-base font-medium transition-all",
+                      isSelected && "shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30"
+                    )}
+                  >
+                    <a href={`/signup?plan=${tier.key}`}>
+                      {isLoading && isSelected ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : null}
+                      {getButtonText(tier.key)}
+                    </a>
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Bottom Note */}
@@ -180,7 +304,7 @@ export default function Pricing() {
           <p className="text-sm text-muted-foreground">
             All plans include access to the iOS and Android apps.
             <br className="hidden sm:inline" />{" "}
-            Need help? Read <a href="#" className="underline hover:text-foreground">Terms & condiitons</a>.
+            Need help? Read <a href="#" className="underline hover:text-foreground">Terms & conditions</a>.
           </p>
         </div>
         

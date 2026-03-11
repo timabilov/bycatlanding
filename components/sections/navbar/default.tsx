@@ -54,7 +54,7 @@ export default function Navbar({
     // { text: "Components", href: siteConfig.navigation.components },
     // { text: "Blocks", href: siteConfig.navigation.blocks },
     // { text: "Illustrations", href: siteConfig.navigation.illustrations },
-    { text: "Blogs", href: siteConfig.navigation.templates },
+    { text: "Blogs", href: "/blogs" },
     { text: "Pricing", href: siteConfig.navigation.pricing },
     { text: "Terms & Conditions", href: siteConfig.navigation.pricing },
     { text: "Privacy policy", href: siteConfig.navigation.pricing },
@@ -107,7 +107,7 @@ export default function Navbar({
                     Components
                   </a> */}
                   <a
-                    href={siteConfig.navigation.blocks}
+                    href={"/blogs"}
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                   >
                     Blogs
@@ -125,7 +125,7 @@ export default function Navbar({
                     Templates
                   </a> */}
                   <a
-                    href={siteConfig.navigation.pricing}
+                    href={"#pricing"}
                     className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
                   >
                     Pricing
@@ -155,7 +155,7 @@ export default function Navbar({
                 asChild
                 aria-label="GitHub"
               >
-                <a href={siteConfig.links.github} target="_blank" rel="noopener noreferrer">
+                <a /*href={siteConfig.links.github}*/ target="_blank" rel="noopener noreferrer">
                   <DiscordLogoIcon className="size-5" />
                 </a>
               </Button>
@@ -166,7 +166,7 @@ export default function Navbar({
                 asChild
                 aria-label="X (Twitter)"
               >
-                <a href={siteConfig.links.twitter} target="_blank" rel="noopener noreferrer">
+                <a /*href={siteConfig.links.twitter}*/ target="_blank" rel="noopener noreferrer">
                   <X className="size-5" />
                 </a>
               </Button>
