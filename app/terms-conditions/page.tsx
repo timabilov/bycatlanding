@@ -90,7 +90,7 @@ export default function TermsAndConditions() {
                     <Ban className="size-4" />
                     <span>Restrictions</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Permission is granted to use Leitner AI's application for personal, commercial and non-commercial use. Under this license you may not:</p>
+                <p className="text-sm text-muted-foreground">Permission is granted to use Bycat AI's application for personal, commercial and non-commercial use. Under this license you may not:</p>
                 <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
                     <li>Resell or redistribute any parts of any components and templates.</li>
                     <li>Manually or programmatically download generated HTML, CSS, JS code (except via "HTML export").</li>
@@ -114,7 +114,7 @@ export default function TermsAndConditions() {
                     <span className="text-primary font-mono text-lg opacity-50">05.</span> Disclaimer
                     </h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                    The materials on Leitner AI's website or app are provided on an 'as is' basis. Leitner AI or <a href="https://skripe.com/" target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline">SKRIPE AZ LLC</a> makes no warranties, expressed or implied. Further, Leitner AI does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials.
+                    The materials on Bycat AI's website or app are provided on an 'as is' basis. Bycat AI or <a href="https://skripe.com/" target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline">SKRIPE AZ LLC</a> makes no warranties, expressed or implied. Further, Bycat AI does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials.
                     </p>
                 </div>
                 <div className="space-y-4">
@@ -122,7 +122,7 @@ export default function TermsAndConditions() {
                     <span className="text-primary font-mono text-lg opacity-50">06.</span> Limitations
                     </h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                    In no event shall Leitner AI or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the materials on Leitner AI's website or app.
+                    In no event shall Bycat AI or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the materials on Bycat AI's website or app.
                     </p>
                 </div>
            </div>
@@ -133,7 +133,7 @@ export default function TermsAndConditions() {
                 <span className="text-primary font-mono text-lg opacity-50">07-08.</span> Modifications & Pricing
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
-                 Leitner AI may revise these terms of service at any time without notice. By using this website you are agreeing to be bound by the then current version. Pricing plans may also be changed at any time.
+                 Bycat AI may revise these terms of service at any time without notice. By using this website you are agreeing to be bound by the then current version. Pricing plans may also be changed at any time.
                 </p>
            </div>
 
@@ -163,7 +163,7 @@ export default function TermsAndConditions() {
             </div>
 
             <div className="text-sm text-muted-foreground space-y-2">
-                <p><strong>How to Request:</strong> Contact support@skripe.com with title 'Refund Request for LeitnerAI'. Include your email and transaction date.</p>
+                <p><strong>How to Request:</strong> Contact support@skripe.com with title 'Refund Request for Bycat AI'. Include your email and transaction date.</p>
                 <p><strong>Processing:</strong> Refunds take 5-10 business days to appear in your account.</p>
             </div>
           </div>
@@ -174,7 +174,7 @@ export default function TermsAndConditions() {
               <span className="text-primary font-mono text-lg opacity-50">10.</span> Signing Up
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              By creating an account in the Leitner AI service you agree your website or app URL can be published in Leitner AI social networks and other communication channels and to receive company email newsletters. You can get instantly unsubscribed though.
+              By creating an account in the Bycat AI service you agree your website or app URL can be published in Bycat AI social networks and other communication channels and to receive company email newsletters. You can get instantly unsubscribed though.
             </p>
           </div>
 

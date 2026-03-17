@@ -46,7 +46,7 @@ const BLOG_POSTS = [
   {
     id: 2,
     title: "Spaced Repetition Algorithms Explained",
-    excerpt: "Breaking down the math behind the Leitner system and how AI optimizes your daily reviews.",
+    excerpt: "Breaking down the math behind the Bycat system and how AI optimizes your daily reviews.",
     date: "Oct 08, 2024",
     readTime: "8 min",
     category: "Product Updates",

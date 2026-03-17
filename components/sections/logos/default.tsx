@@ -5,7 +5,8 @@ import {
   InfinityIcon, 
   MicIcon, 
   YoutubeIcon,
-  LucideIcon
+  LucideIcon,
+  MessageCircle
 } from "lucide-react";
 
 import { Badge } from "../../ui/badge";
@@ -78,6 +79,11 @@ export default function Capabilities({
     {
       icon: InfinityIcon,
       label: "Context",
+      limit: "Unlimited",
+    },
+    {
+      icon: MessageCircle,
+      label: "AI Chat",
       limit: "Unlimited",
     },
   ];

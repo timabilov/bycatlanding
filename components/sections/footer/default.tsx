@@ -50,17 +50,17 @@ export default function FooterSection({
       title: "Company",
       links: [
         { text: "Skripe", href: siteConfig.links.skripe },
-        { text: "Blog", href: siteConfig.url },
+        { text: "Blog", href: "/blogs" },
       ],
     },
-    {
-      title: "Contact",
-      links: [
-        { text: "Discord", href: siteConfig.url },
-        { text: "Twitter", href: siteConfig.url },
-        { text: "Github", href: siteConfig.links.github },
-      ],
-    },
+    // {
+    //   title: "Contact",
+    //   links: [
+    //     { text: "Discord", href: siteConfig.url },
+    //     { text: "Twitter", href: siteConfig.url },
+    //     { text: "Github", href: siteConfig.links.github },
+    //   ],
+    // },
   ],
   copyright = "© 2025 Skripe.az All rights reserved",
   policies = [

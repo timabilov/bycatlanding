@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
                   https://leitnerify.ai
                 </Link>
                 , mobile apps, and other sites we own and operate for
-                functionality of Leitner AI.
+                functionality of Bycat AI.
               </p>
               <p>
                 We only ask for personal information when we truly need it to

@@ -25,7 +25,7 @@ export default function AccountRemoval() {
   const [copied, setCopied] = useState(false);
   
   const supportEmail = "support@skripe.com";
-  const subjectLine = "Account Removal Request - Leitner AI";
+  const subjectLine = "Account Removal Request - Bycat AI";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(subjectLine);
@@ -66,7 +66,7 @@ export default function AccountRemoval() {
             {/* 1. General Statement (Exact text requested) */}
             <div className="text-muted-foreground space-y-6 text-lg leading-relaxed">
               <p>
-                To be able to provide necessary services within the <strong>Leitner AI</strong> we collect and store various data. You can read about how we process, store and use your data in our{" "}
+                To be able to provide necessary services within the <strong>Bycat AI</strong> we collect and store various data. You can read about how we process, store and use your data in our{" "}
                 <Link
                   href="/privacy-policy"
                   className="text-primary underline-offset-4 hover:underline"
@@ -75,7 +75,7 @@ export default function AccountRemoval() {
                 </Link>.
               </p>
               <p>
-                To request account removal - please provide your email associated with Leitner AI mobile app following the steps below.
+                To request account removal - please provide your email associated with Bycat AI mobile app following the steps below.
               </p>
             </div>
 

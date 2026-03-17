@@ -57,15 +57,15 @@ const ARTICLE = {
       <li><strong>Myelination:</strong> Repeated firing of a circuit wraps the axon in myelin, speeding up the signal.</li>
     </ul>
 
-    <h2>Implementing Leitner Systems</h2>
-    <p>This is where the Leitner system comes in. By spacing out your active recall sessions based on how well you know the answer, you maximize efficiency. You don't study what you already know; you focus on the weak neural pathways.</p>
+    <h2>Implementing Bycat Systems</h2>
+    <p>This is where the Bycat system comes in. By spacing out your active recall sessions based on how well you know the answer, you maximize efficiency. You don't study what you already know; you focus on the weak neural pathways.</p>
   `
 };
 
 const TABLE_OF_CONTENTS = [
   { id: "fluency", title: "The Fluency Illusion" },
   { id: "rewires", title: "How the Brain Rewires Itself" },
-  { id: "leitner", title: "Implementing Leitner Systems" },
+  { id: "bycat", title: "Implementing Bycat Systems" },
   { id: "conclusion", title: "Conclusion" },
 ];
 
@@ -190,7 +190,7 @@ export default function BlogPost() {
               <div className="mt-16 p-8 rounded-3xl border border-primary/20 bg-primary/5 backdrop-blur-sm text-center space-y-6">
                 <h3 className="text-2xl font-bold">Ready to apply Active Recall?</h3>
                 <p className="text-muted-foreground max-w-lg mx-auto">
-                  Stop rereading and start testing. Upload your notes to Leitner AI and generate a quiz in seconds.
+                  Stop rereading and start testing. Upload your notes to Bycat AI and generate a quiz in seconds.
                 </p>
                 <Button size="lg" className="rounded-full px-8 text-base cursor-pointer">
                   Generate Quiz Now
