@@ -17,11 +17,8 @@ export const PRICING_TIERS_CLAIM = [
     unit: "week",
     name: "Weekly",
     claimOffer: "Free first week",
-<<<<<<< Updated upstream
     defaultPrice: 5.99,
     originalPrice: 0,
-=======
->>>>>>> Stashed changes
     description: "Perfect for short-term projects.",
     discountId: "dsc_01kj5c3fkwfqcq1wdhect5nr19",
     priceId: "pri_01kaxbbdytvqamegsd7e486r59", 
@@ -33,11 +30,8 @@ export const PRICING_TIERS_CLAIM = [
     unit: "month",
     name: "Monthly",
     claimOffer: "+42% discount",
-<<<<<<< Updated upstream
     defaultPrice: 11.99,
     originalPrice: 6.99,
-=======
->>>>>>> Stashed changes
     discount: "50% OFF",
     description: "Recommended for ongoing usage.",
     discountId: 'dsc_01kjt6watya70vrj8ctk8mbqpd',
@@ -48,15 +42,10 @@ export const PRICING_TIERS_CLAIM = [
   {
     key: "annual",
     id: "pro_annual",
-<<<<<<< Updated upstream
     unit: "mo", // displaying as monthly equivalent
     name: "Annual",
     defaultPrice: 79.99,
     originalPrice: 65.89, 
-=======
-    unit: "mo",
-    name: "Annual",
->>>>>>> Stashed changes
     discount: "80% OFF",
     claimOffer: "+2 month free",
     discountId: 'dsc_01kjt7062j64y950pwkfxttr8s',
@@ -72,11 +61,8 @@ export const PRICING_TIERS = [
     id: "pro_weekly",
     unit: "week",
     name: "Weekly",
-<<<<<<< Updated upstream
     defaultPrice: null, // No strike-through for normal weekly
     originalPrice: 5.99,
-=======
->>>>>>> Stashed changes
     description: "Perfect for short-term projects.",
     priceId: "pri_01kaxbbdytvqamegsd7e486r59", 
     features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
@@ -86,11 +72,8 @@ export const PRICING_TIERS = [
     unit: "month",
     id: "pro_monthly",
     name: "Monthly",
-<<<<<<< Updated upstream
     defaultPrice: 34.99,
     originalPrice: 11.99,
-=======
->>>>>>> Stashed changes
     discountId: 'dsc_01kbaks5he1g277bedvg06xs1m',
     discount: "50% OFF",
     description: "Recommended for ongoing usage.",
@@ -102,13 +85,9 @@ export const PRICING_TIERS = [
     key: "annual",
     id: "pro_annual",
     name: "Annual",
-<<<<<<< Updated upstream
     unit: "mo", // displaying as monthly equivalent
     defaultPrice: 239.99,
     originalPrice: 79.99, 
-=======
-    unit: "mo",
->>>>>>> Stashed changes
     discount: "80% OFF",
     discountId: 'dsc_01kbaksng47cf7gsr4wht0xrdq',
     description: "Best value. Save significantly.",
@@ -119,15 +98,9 @@ export const PRICING_TIERS = [
 
 export default function Pricing({ banner }: { banner?: any }) {
   const [livePrices, setLivePrices] = useState<Record<string, { current: number; original: number | null }>>({});
-<<<<<<< Updated upstream
   const [isLoading, setIsLoading] = useState(true);
 
   // 1. Determine which data set to use based on the promo banner
-=======
-  const [currencySymbol, setCurrencySymbol] = useState("$");
-  const [isLoading, setIsLoading] = useState(true);
-
->>>>>>> Stashed changes
   const hasPromo = !!banner;
   const activeTiers = PRICING_TIERS;
 
@@ -137,16 +110,11 @@ export default function Pricing({ banner }: { banner?: any }) {
     const fetchPrices = async () => {
       try {
         paddleInstance = await initializePaddle({
-<<<<<<< Updated upstream
           environment: "production",
-=======
-          environment: "sandbox", 
->>>>>>> Stashed changes
           token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN || "test_token",
         });
 
         if (paddleInstance) {
-<<<<<<< Updated upstream
           const request = {
             items: activeTiers.map((p) => ({ priceId: p.priceId, quantity: 1 })),
           };
@@ -167,48 +135,6 @@ export default function Pricing({ banner }: { banner?: any }) {
             }
           });
 
-=======
-          const priceMap: Record<string, { current: number; original: number | null }> = {};
-          let detectedSymbol = "$";
-
-          // Fetch each tier individually so we can pass its unique discountId
-          await Promise.all(
-            activeTiers.map(async (tier) => {
-              const requestPayload: any = {
-                items: [{ priceId: tier.priceId, quantity: 1 }],
-              };
-
-              // Explicitly attach the discount ID to force Paddle to apply the discount
-              if (tier.discountId) {
-                requestPayload.discountId = tier.discountId;
-              }
-
-              const preview = await paddleInstance!.PricePreview(requestPayload);
-
-              if (preview.data.details.lineItems.length > 0) {
-                const item = preview.data.details.lineItems[0];
-
-                // Grab currency symbol from the first successful response
-                if (detectedSymbol === "$") {
-                  const formattedExample = item.formattedTotals.total;
-                  const symbol = formattedExample.replace(/[0-9.,\s]/g, "");
-                  if (symbol) detectedSymbol = symbol;
-                }
-
-                const currentNum = Number(item.totals.total) / 100;
-                const subtotalNum = Number(item.totals.subtotal) / 100;
-
-                priceMap[tier.key] = {
-                  current: currentNum,
-                  // If Paddle applied the discount, subtotal will be higher than current
-                  original: subtotalNum > currentNum ? subtotalNum : null,
-                };
-              }
-            })
-          );
-
-          setCurrencySymbol(detectedSymbol);
->>>>>>> Stashed changes
           setLivePrices(priceMap);
         }
       } catch (error) {
@@ -221,10 +147,7 @@ export default function Pricing({ banner }: { banner?: any }) {
     fetchPrices();
   }, [hasPromo, activeTiers]);
 
-<<<<<<< Updated upstream
   // Helper to map buttons back to your old text style
-=======
->>>>>>> Stashed changes
   const getButtonText = (key: string) => {
     if (key === "weekly") return "Start 7-Day Access";
     if (key === "monthly") return "Get Monthly";
@@ -245,7 +168,6 @@ export default function Pricing({ banner }: { banner?: any }) {
           </p>
         </div>
         
-<<<<<<< Updated upstream
         {/* Banner */}
         {banner}
 
@@ -268,16 +190,6 @@ export default function Pricing({ banner }: { banner?: any }) {
               }
             }
 
-=======
-        {banner}
-
-        {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-center mt-8">
-          {activeTiers.map((tier) => {
-            const isSelected = hasPromo ? tier.key === "annual" : tier.isPopular;
-            const livePrice = livePrices[tier.key];
-
->>>>>>> Stashed changes
             return (
               <div
                 key={tier.id}
@@ -289,11 +201,7 @@ export default function Pricing({ banner }: { banner?: any }) {
                     : "py-8 px-8 border-border/50 shadow-sm hover:shadow-md hover:border-border/80 z-0"
                 )}
               >
-<<<<<<< Updated upstream
                 {/* Top Badge (Old Style) */}
-=======
-                {/* Top Badge */}
->>>>>>> Stashed changes
                 {isSelected && (
                   <div className="absolute -top-4 left-0 right-0 mx-auto w-fit">
                     <Badge className="bg-primary hover:bg-primary text-primary-foreground px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 whitespace-nowrap">
@@ -315,7 +223,6 @@ export default function Pricing({ banner }: { banner?: any }) {
                     {tier.name}
                   </h3>
                   
-<<<<<<< Updated upstream
                   {/* --- PRICE DISPLAY SECTION (With SaaS Line-through) --- */}
                   <div className="flex flex-col items-center justify-center min-h-[5rem]">
                     
@@ -346,46 +253,6 @@ export default function Pricing({ banner }: { banner?: any }) {
                       </span>
                     )}
 
-=======
-                  {/* --- PRICE DISPLAY SECTION --- */}
-                  <div className="flex flex-col items-center justify-center min-h-[5rem]">
-                    {isLoading || !livePrice ? (
-                      // Skeleton Loading State
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="h-4 w-12 bg-muted animate-pulse rounded" />
-                        <div className="h-10 w-24 bg-muted animate-pulse rounded" />
-                      </div>
-                    ) : (
-                      <>
-                        {/* Strike-through Price (Only renders if Paddle returned a discount) */}
-                        {livePrice.original && (
-                          <span className="text-sm font-medium line-through text-foreground decoration-1 opacity-70 mb-[-4px]">
-                            {currencySymbol}{tier.key === "annual" ? (livePrice.original / 12).toFixed(2) : livePrice.original.toFixed(2)}
-                          </span>
-                        )}
-                        
-                        {/* Main Price */}
-                        <div className="flex items-baseline justify-center gap-1">
-                          <span className={cn(
-                            "text-4xl font-bold tracking-tight text-foreground",
-                            isSelected && "text-pink-500"
-                          )}>
-                            {currencySymbol}{tier.key === "annual" ? (livePrice.current / 12).toFixed(2) : livePrice.current.toFixed(2)}
-                          </span>
-                          <span className="text-muted-foreground font-medium">
-                            /{tier.unit}
-                          </span>
-                        </div>
-
-                        {/* Billed Annually Subtext */}
-                        {tier.key === "annual" && (
-                          <span className="text-xs text-muted-foreground mt-1">
-                            Billed annually ({currencySymbol}{livePrice.current.toFixed(2)}/yr)
-                          </span>
-                        )}
-                      </>
-                    )}
->>>>>>> Stashed changes
                   </div>
 
                   <p className="text-sm text-muted-foreground/80 mt-2">
@@ -393,7 +260,6 @@ export default function Pricing({ banner }: { banner?: any }) {
                   </p>
                 </div>
 
-<<<<<<< Updated upstream
                 {/* Features List (Old Style Layout) */}
                 <ul className="mb-8 space-y-4">
                   {tier.features.map((feature, idx) => (
@@ -402,13 +268,6 @@ export default function Pricing({ banner }: { banner?: any }) {
                         "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
                         "bg-primary/10 text-primary" // Assuming all features are included in your data
                       )}>
-=======
-                {/* Features List */}
-                <ul className="mb-8 space-y-4">
-                  {tier.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm">
-                      <div className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
->>>>>>> Stashed changes
                         <Check className="size-3" />
                       </div>
                       <span className="text-foreground leading-snug">
@@ -418,25 +277,14 @@ export default function Pricing({ banner }: { banner?: any }) {
                   ))}
                 </ul>
 
-<<<<<<< Updated upstream
                 {/* CTA Button (Old Style) */}
-=======
-                {/* CTA Button */}
->>>>>>> Stashed changes
                 <div className="mt-auto">
                   <Button
                     asChild
                     size="lg"
-<<<<<<< Updated upstream
                     variant={isSelected ? "default" : "outline"}
                     className={cn(
                       "w-full rounded-2xl h-12 text-base font-medium transition-all",
-=======
-                    disabled={isLoading}
-                    variant={isSelected ? "default" : "outline"}
-                    className={cn(
-                      "w-full rounded-2xl h-12 text-base font-medium transition-all cursor-pointer",
->>>>>>> Stashed changes
                       isSelected && "shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30"
                     )}
                   >
