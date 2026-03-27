@@ -95,7 +95,7 @@ export default function Banner({ promoData }: BannerProps) {
                 </span>
               </span>
 
-              <ArrowRight onClick={() => window.open("https://leitner-2adq.onrender.com/price-page?sale=true")} className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-pink-500" />
+              <ArrowRight onClick={() => window.open("https://app.bycat.ai/price-page?sale=true")} className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-pink-500" />
             </div>
           </span>
         </a>

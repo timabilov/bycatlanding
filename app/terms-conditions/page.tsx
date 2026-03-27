@@ -46,7 +46,7 @@ export default function TermsAndConditions() {
               <span className="text-primary font-mono text-lg opacity-50">01.</span> Terms
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              By accessing the website or mobile app at <Link href="https://leitnerify.ai" className="text-foreground hover:underline underline-offset-4">https://leitnerify.ai</Link> and its pages, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site or app. The materials contained in this website or app are protected by applicable copyright and trademark law.
+              By accessing the website or mobile app at <Link href="https://app.bycat.ai/" className="text-foreground hover:underline underline-offset-4">https://app.bycat.ai/</Link> and its pages, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site or app. The materials contained in this website or app are protected by applicable copyright and trademark law.
             </p>
           </div>
 

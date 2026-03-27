@@ -84,10 +84,10 @@ export default function PrivacyPolicy() {
                 have a positive experience, as we may collect the necessary data
                 from you across our website,{" "}
                 <Link
-                  href="https://leitnerify.ai"
+                  href="https://app.bycat.ai/"
                   className="text-primary underline-offset-4 hover:underline"
                 >
-                  https://leitnerify.ai
+                  https://app.bycat.ai/
                 </Link>
                 , mobile apps, and other sites we own and operate for
                 functionality of Bycat AI.

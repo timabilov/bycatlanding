@@ -288,7 +288,7 @@ export default function Pricing({ banner }: { banner?: any }) {
                       isSelected && "shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30"
                     )}
                   >
-                    <a href={`/signup?plan=${tier.key}`}>
+                    <a href={`https://app.bycat.ai/price-page`}>
                       {isLoading && isSelected ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : null}
                       {getButtonText(tier.key)}
                     </a>

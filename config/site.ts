@@ -3,7 +3,7 @@ export const siteConfig = {
   version: "v2.7",
   url: "https://launchuicomponents.com",
   getStartedUrl:
-    "https://leitner-2adq.onrender.com/",
+    "https://app.bycat.ai/",
   ogImage: "https://launchuicomponents.com/og.jpg",
   description:
     "Landing page components built with React, Shadcn/ui and Tailwind that will make your website feel premium.",
