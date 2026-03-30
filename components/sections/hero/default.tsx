@@ -72,6 +72,7 @@ function StaticImageStack({ className }: { className?: string }) {
                 src={resolvedTheme === "light" ? img.srcLight : img.srcDark}
                 alt={img.alt}
                 fill
+                sizes="(max-width: 768px) 100vw, 60vw" 
                 className="object-cover object-top"
                 priority={index === 0} 
               />

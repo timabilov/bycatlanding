@@ -148,9 +148,11 @@ export default function Pricing({ banner }: { banner?: any }) {
   }, [hasPromo, activeTiers]);
 
   // Helper to map buttons back to your old text style
-  const getButtonText = (key: string) => {
+  const getButtonText = (key: string, hasPromo?: boolean) => {
+    console.log("Determining button text for:", key, hasPromo);
     if (key === "weekly") return "Start 7-Day Access";
     if (key === "monthly") return "Get Monthly";
+    if (key === "annual") return "Get Annual Plan";
     return "Start 3-Day Free Trial";
   };
 
@@ -290,7 +292,7 @@ export default function Pricing({ banner }: { banner?: any }) {
                   >
                     <a href={`https://app.bycat.ai/price-page`}>
                       {isLoading && isSelected ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : null}
-                      {getButtonText(tier.key)}
+                      {getButtonText(tier.key, hasPromo)}
                     </a>
                   </Button>
                 </div>
