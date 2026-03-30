@@ -66,6 +66,7 @@ export default function FooterSection({
   policies = [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Service", href: "/terms-conditions" },
+    { text: "Refund Policy", href: "/terms-conditions#refund-policy" },
   ],
   showModeToggle = true,
   className,

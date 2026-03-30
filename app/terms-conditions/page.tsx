@@ -139,7 +139,7 @@ export default function TermsAndConditions() {
 
 
           {/* 9. Refund Policy */}
-          <div className="space-y-6">
+          <div id="refund-policy" className="space-y-6">
             <div className="flex items-center gap-2">
                 <RefreshCcw className="size-6 text-primary" />
                 <h2 className="text-2xl font-semibold text-foreground">Refund Policy</h2>
