@@ -57,7 +57,7 @@ export default function FAQ({
       question: "Is Bycat AI available for Android and iOS?",
       answer: (
         <p className="text-muted-foreground mb-4 max-w-[580px]">
-          Yes, it is available for both platforms. You can download the mobile app to sync your notes and study on the go.
+          It is available for iOS and Web platforms. You can download the mobile app to sync your notes and study on the go.
         </p>
       ),
     },

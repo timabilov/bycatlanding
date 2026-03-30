@@ -159,7 +159,7 @@ export default function Pricing({ banner }: { banner?: any }) {
       <div className="container px-4 md:px-6 mx-auto">
         
         {/* Header */}
-        <div className="mx-auto max-w-2xl text-center mb-6" id="#pricing">
+        <div className="mx-auto max-w-2xl text-center mb-6" id="pricing">
           <h2 className="text-3xl font-bold tracking-tight sm:text-5xl mb-4">
             Invest in your grades.
           </h2>

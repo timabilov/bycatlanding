@@ -130,7 +130,7 @@ export default function Hero({
   ),
   
   badge = (
-    <div className="relative z-10 animate-appear">
+    <a href="https://apps.apple.com/us/app/leitner-ai-note-quiz-alerts/id6747087851" target="_blank" rel="noopener noreferrer" className="relative z-10 animate-appear">
       <div className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white/5 p-[1px] dark:border-white/10">
         <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         <span className="relative inline-flex h-full w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium text-neutral-950 backdrop-blur-3xl transition-colors hover:bg-neutral-100 dark:bg-neutral-950 dark:text-white dark:hover:bg-neutral-900/80">
@@ -143,7 +143,7 @@ export default function Hero({
           </span>
         </span>
       </div>
-    </div>
+    </a>
   ),
   buttons = [
     {
