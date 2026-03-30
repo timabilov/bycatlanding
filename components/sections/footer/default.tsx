@@ -62,7 +62,7 @@ export default function FooterSection({
     //   ],
     // },
   ],
-  copyright = "© 2025 Skripe.az All rights reserved",
+  copyright = "© 2026 Skripe.az All rights reserved",
   policies = [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Service", href: "/terms-conditions" },
