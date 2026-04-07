@@ -29,17 +29,17 @@ export default function Items({
   title = "Turn any content into knowledge.",
   items = [
     {
-      title: "Video to Notes",
+      title: "YouTube to Notes AI Summary",
       description: "Paste a YouTube link and get a comprehensive summary, transcript, and key points in seconds.",
       icon: <YoutubeIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Smart PDF Reader",
+      title: "Smart PDF Reader & Chat",
       description: "Upload textbooks, research papers, or slides. We extract the text and organize the insights for you.",
       icon: <FileTextIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Audio Transcription",
+      title: "Audio Lecture Transcription",
       description:
         "Record lectures or upload audio files. Perfect for meetings, seminars, and voice memos.",
       icon: <MicIcon className="size-5 stroke-1" />,
@@ -97,3 +97,40 @@ export default function Items({
     </Section>
   );
 }
+
+
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity":[
+        {
+          "@type": "Question",
+          "name": "What formats can Bycat AI process?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bycat AI can process YouTube videos (up to 2 hours), Audio files (up to 3 hours), PDFs and Documents (up to 500 pages), and Images."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use Bycat AI for languages other than English?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Bycat AI features multi-language support. You can upload study materials in any language and translate complex texts or generate notes in your native tongue."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Bycat AI available for Android and iOS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! All subscription plans include full access to both the iOS and Android mobile apps, syncing your study progress seamlessly across all devices."
+          }
+        }
+      ]
+    })
+  }}
+/>

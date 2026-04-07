@@ -18,9 +18,9 @@ import Banner from "@/components/ui/banner";
 // --- 1. STATIC 3D STACK COMPONENT (View from Left) ---
 
 const images = [
-  { srcLight: "/ss1.png", srcDark: "/ss1.png", alt: "Dashboard" },
-  { srcLight: "/ss2.png", srcDark: "/ss2.png", alt: "Chat" },
-  { srcLight: "/ss3.png", srcDark: "/ss3.png", alt: "Quiz" },
+  { srcLight: "/ss1.png", srcDark: "/ss1.png", alt: "Bycat AI dashboard converting a YouTube lecture video into study notes" },
+  { srcLight: "/ss2.png", srcDark: "/ss2.png", alt: "AI generated multiple choice quiz from a PDF textbook" },
+  { srcLight: "/ss3.png", srcDark: "/ss3.png", alt: "Digital flashcards automatically generated from lecture notes" },
 ];
 
 function StaticImageStack({ className }: { className?: string }) {
@@ -43,7 +43,7 @@ function StaticImageStack({ className }: { className?: string }) {
       */}
       <div 
         className="relative w-full h-full flex items-center justify-center scale-100 sm:scale-110 origin-center mx-auto"
-        style={{ transform: "perspective(1200px) rotateY(25deg) rotateX(10deg) translateX(-5%)" }}
+        style={{ transform: "perspective(1200px) rotateY(0deg) rotateX(10deg) translateX(-5%)" }}
       >
         {images.map((img, index) => (
           <div
@@ -122,8 +122,8 @@ interface HeroProps {
 }
 
 export default function Hero({
-  title = "Designed to fit every learning use case",
-  description = "Platform focused on your weakest areas! With Bycat.ai system platform identifies and drills your weakest areas, making your study sessions shorter and more effective.",
+  title = "The AI Study App for PDFs, YouTube, and Audio Lectures.",
+  description = "Upload up to 500-page documents or 2-hour videos. Bycat AI identifies your weakest areas and drills them with auto-generated flashcards and quizzes.",
   
   // *** MOCKUP SECTION REPLACED ***
   mockup = (
