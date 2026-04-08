@@ -10,7 +10,7 @@ import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/utils";
 
 // --- Pricing Data Sources ---
-export const PRICING_TIERS_CLAIM = [
+export const PRICING_TIERS_CLAIM =[
   {
     key: "weekly",
     id: "pro_weekly",
@@ -22,7 +22,7 @@ export const PRICING_TIERS_CLAIM = [
     description: "Perfect for short-term projects.",
     discountId: "dsc_01kn732qx3f2tk2pdpvjj2dav5",
     priceId: "pri_01kn72e7s269tnzcakpvf9fvs5", 
-    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+    features:['Unlimited notes', "2x Daily Live AI Tutoring", 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
   },
   {
     key: "monthly",
@@ -36,8 +36,8 @@ export const PRICING_TIERS_CLAIM = [
     description: "Recommended for ongoing usage.",
     discountId: 'dsc_01kn733smjmmk9y4qhyhymvrfe',
     priceId: "pri_01kn72r9q9rxq8sa54n4xe51w6", 
-    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
-    isPopular: true, // Helper flag for default selection
+    features:['Unlimited notes', "2x Daily Live AI Tutoring",'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+    isPopular: true, 
   },
   {
     key: "annual",
@@ -45,19 +45,18 @@ export const PRICING_TIERS_CLAIM = [
     unit: "month",
     name: "Annual",
     defaultPrice: 79.99,
-    original: 65.89, //239 dan endirime claimsiz gelende
+    original: 65.89, 
     discount: "80% OFF",
     claimOffer: "+2 month free",
     montly_price: 65.89,
-    discountId: 'dsc_01kjt7062j64y950pwkfxttr8s',
+    discountId: 'dsc_01kn7356nt9kwp96qm62p02ef9',
     priceId: "pri_01kn72whp6q7grp3jhzadkhnny",
     description: "Best value. Save significantly.",
-    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+    features:['Unlimited notes',"2x Daily Live AI Tutoring", 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
   },
 ];
 
-
-export const PRICING_TIERS = [
+export const PRICING_TIERS =[
   {
     key: "weekly",
     id: "pro_weekly",
@@ -67,7 +66,7 @@ export const PRICING_TIERS = [
     defaultPrice: 5.99,
     description: "Perfect for short-term projects.",
     priceId: "pri_01kn72e7s269tnzcakpvf9fvs5", 
-    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+    features:['Unlimited notes', "2x Daily Live AI Tutoring",'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
   },
   {
     key: "monthly",
@@ -80,8 +79,8 @@ export const PRICING_TIERS = [
     discount: "50% OFF",
     description: "Recommended for ongoing usage.",
     priceId: "pri_01kn72g7y1k1was8fy04fnk5pr", 
-    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
-    isPopular: true, // Helper flag for default selection
+    features:['Unlimited notes',"2x Daily Live AI Tutoring", 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+    isPopular: true, 
   },
   {
     key: "annual",
@@ -89,12 +88,12 @@ export const PRICING_TIERS = [
     name: "Annual",
     unit: "month",
     defaultPrice: 239.99,
-    original: 79.99, //239 dan endirime claimsiz gelende
+    original: 79.99, 
     discount: "80% OFF",
     discountId: 'dsc_01kn7312xn4mas8fn4bbybkadp',
     description: "Best value. Save significantly.",
     priceId: "pri_01kn72nntvwtbx9fxpjq1sjyh2",
-    features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
+    features:['Unlimited notes',"2x Daily Live AI Tutoring", 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
   },
 ];
 
@@ -107,29 +106,36 @@ export default function Pricing({ banner }: { banner?: any }) {
   const activeTiers = hasPromo ? PRICING_TIERS_CLAIM : PRICING_TIERS;
 
   useEffect(() => {
-    let paddleInstance: Paddle | undefined;
+    let isMounted = true;
 
     const fetchPrices = async () => {
       try {
-        paddleInstance = await initializePaddle({
+        const paddleInstance = await initializePaddle({
           environment: "production",
           token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN || "test_token",
         });
 
-        if (paddleInstance) {
-          const request = {
-            items: activeTiers.map((p) => ({ priceId: p.priceId, quantity: 1 })),
-          };
+        if (paddleInstance && isMounted) {
+          // 🟢 FIXED: Create an array of individual promises to bypass the Paddle array error
+          const previewPromises = activeTiers.map((tier) => {
+            return paddleInstance.PricePreview({
+              items: [{ priceId: tier.priceId, quantity: 1 }],
+              discountId: tier.discountId || undefined, // Only pass string if exists
+            });
+          });
 
-          const preview = await paddleInstance.PricePreview(request);
+          // 🟢 Await all 3 requests simultaneously
+          const results = await Promise.all(previewPromises);
           const priceMap: Record<string, { current: number; original: number | null }> = {};
 
-          preview.data.details.lineItems.forEach((item) => {
+          results.forEach((result: any) => {
+            const item = result.data.details.lineItems[0];
             const plan = activeTiers.find((p) => p.priceId === item.price.id);
+            
             if (plan) {
               const currentNum = parseInt(item.formattedTotals.total.replace(/[^0-9]/g, ""), 10) / 100;
               const subtotalNum = parseInt(item.formattedTotals.subtotal.replace(/[^0-9]/g, ""), 10) / 100;
-              //console.log("currentNum", currentNum, "subtotalNum", subtotalNum !== currentNum ? subtotalNum : null)
+              
               priceMap[plan.key] = {
                 current: currentNum,
                 original: subtotalNum !== currentNum ? subtotalNum : null,
@@ -137,21 +143,24 @@ export default function Pricing({ banner }: { banner?: any }) {
             }
           });
 
-          setLivePrices(priceMap);
+          if (isMounted) setLivePrices(priceMap);
         }
       } catch (error) {
         console.error("Failed to fetch Paddle prices:", error);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     };
 
     fetchPrices();
+
+    return () => {
+      isMounted = false;
+    };
   }, [hasPromo, activeTiers]);
 
   // Helper to map buttons back to your old text style
   const getButtonText = (key: string, hasPromo?: boolean) => {
-    //console.log("Determining button text for:", key, hasPromo);
     if (key === "weekly") return "Start 7-Day Access";
     if (key === "monthly") return "Get Monthly";
     if (key === "annual") return "Get Annual Plan";
@@ -182,16 +191,13 @@ export default function Pricing({ banner }: { banner?: any }) {
             // Highlight Logic: We highlight Annual if promo is active, else fallback to tier.isPopular
             const isSelected = hasPromo ? tier.key === "annual" : tier.isPopular;
             
-            // Base Prices from Data
-            let finalOriginal = tier.original;
-            let finalDefault:number | null = tier.defaultPrice;
-            // Override with Live Paddle Prices if available
-            if (livePrices[tier.key]) {
-              finalOriginal = livePrices[tier.key].current;
-              if (livePrices[tier.key].original) {
-                 finalDefault = livePrices[tier.key].original;
-              }
-            }
+            // 🟢 FIXED: Safe Fallbacks. If Paddle isn't ready, use the hardcoded numbers!
+            const liveData = livePrices[tier.key];
+            
+            const fallbackOriginal = tier.original !== undefined ? tier.original : tier.defaultPrice;
+            const finalOriginal = liveData ? liveData.current : fallbackOriginal;
+            
+            const finalDefault = liveData && liveData.original ? liveData.original : tier.defaultPrice;
 
             return (
               <div
@@ -229,20 +235,20 @@ export default function Pricing({ banner }: { banner?: any }) {
                   {/* --- PRICE DISPLAY SECTION (With SaaS Line-through) --- */}
                   <div className="flex flex-col items-center justify-center min-h-[5rem]">
                     
-                    {/* Strike-through Price */}
-                    {finalDefault !== null && finalDefault !== undefined && (
+                    {/* 🟢 FIXED: Safe Strike-through Math */}
+                    {finalDefault && Number(finalDefault) > 0 && (
                       <span className="text-sm font-medium line-through text-foreground decoration-1 opacity-70 mb-[-4px]">
-                        ${tier.key === "annual" ? (finalDefault / 12).toFixed(2) : finalDefault.toFixed(2)}
+                        ${tier.key === "annual" ? (Number(finalDefault) / 12).toFixed(2) : Number(finalDefault).toFixed(2)}
                       </span>
                     )}
                     
-                    {/* Main Price */}
+                    {/* 🟢 FIXED: Safe Main Price Math */}
                     <div className="flex items-baseline justify-center gap-1">
                       <span className={cn(
                         "text-4xl font-bold tracking-tight text-foreground",
-                        isSelected && "text-pink-500" // Optional: makes the selected price pop
+                        isSelected && "text-pink-500"
                       )}>
-                        ${tier.key === "annual" ? (finalOriginal / 12).toFixed(2) : finalOriginal.toFixed(2)}
+                        ${tier.key === "annual" ? (Number(finalOriginal) / 12).toFixed(2) : Number(finalOriginal).toFixed(2)}
                       </span>
                       <span className="text-muted-foreground font-medium">
                         /{tier.unit}
@@ -252,7 +258,7 @@ export default function Pricing({ banner }: { banner?: any }) {
                     {/* Billed Annually Subtext */}
                     {tier.key === "annual" && (
                       <span className="text-xs text-muted-foreground mt-1">
-                        Billed annually (${finalOriginal.toFixed(2)}/yr)
+                        Billed annually (${Number(finalOriginal).toFixed(2)}/yr)
                       </span>
                     )}
 
@@ -269,7 +275,7 @@ export default function Pricing({ banner }: { banner?: any }) {
                     <li key={idx} className="flex items-start gap-3 text-sm">
                       <div className={cn(
                         "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
-                        "bg-primary/10 text-primary" // Assuming all features are included in your data
+                        "bg-primary/10 text-primary" 
                       )}>
                         <Check className="size-3" />
                       </div>
@@ -291,7 +297,8 @@ export default function Pricing({ banner }: { banner?: any }) {
                       isSelected && "shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30"
                     )}
                   >
-                    <a href={`https://app.bycat.ai/price-page`}>
+                    {/* Because this is a landing page, it just links back to your app! */}
+                    <a href={`https://app.bycat.ai/price-page${hasPromo ? '?sale=true' : ''}`}>
                       {isLoading && isSelected ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : null}
                       {getButtonText(tier.key, hasPromo)}
                     </a>

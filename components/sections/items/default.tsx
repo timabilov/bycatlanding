@@ -1,9 +1,11 @@
 import {
   FileTextIcon,
+  Headset,
   ImageIcon,
   LanguagesIcon,
   MessageSquareTextIcon,
   MicIcon,
+  PhoneCall,
   SmartphoneIcon,
   SparklesIcon,
   YoutubeIcon,
@@ -60,10 +62,10 @@ export default function Items({
       icon: <SparklesIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Multi-language Support",
+      title: "Live AI Study Sessions",
       description:
-        "Study materials in any language. Translate complex texts or generate notes in your native tongue.",
-      icon: <LanguagesIcon className="size-5 stroke-1" />,
+        "Need extra help? Hop into an interactive chat with our advanced AI tutor. Enjoy 2 live sessions daily to prep for your exams with total confidence.",
+      icon: <Headset className="size-5 stroke-1" />,
     },
     {
       title: "Sync Across Devices",

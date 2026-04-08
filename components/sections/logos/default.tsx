@@ -86,6 +86,11 @@ export default function Capabilities({
       label: "AI Chat",
       limit: "Unlimited",
     },
+    {
+      icon: MessageCircle,
+      label: "Live AI Session",
+      limit: "2x Daily",
+    },
   ];
 
   return (
