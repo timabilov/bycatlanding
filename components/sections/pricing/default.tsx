@@ -64,6 +64,7 @@ export const PRICING_TIERS = [
     unit: "week",
     name: "Weekly",
     original: 5.99,
+    defaultPrice: 5.99,
     description: "Perfect for short-term projects.",
     priceId: "pri_01kn72e7s269tnzcakpvf9fvs5", 
     features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
