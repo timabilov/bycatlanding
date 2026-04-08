@@ -18,7 +18,7 @@ export const PRICING_TIERS_CLAIM = [
     name: "Weekly",
     claimOffer: "Free first week",
     defaultPrice: 5.99,
-    originalPrice: 0,
+    original: 0,
     description: "Perfect for short-term projects.",
     discountId: "dsc_01kn732qx3f2tk2pdpvjj2dav5",
     priceId: "pri_01kn72e7s269tnzcakpvf9fvs5", 
@@ -31,7 +31,7 @@ export const PRICING_TIERS_CLAIM = [
     name: "Monthly",
     claimOffer: "+42% discount",
     defaultPrice: 11.99,
-    originalPrice: 6.99,
+    original: 6.99,
     discount: "50% OFF",
     description: "Recommended for ongoing usage.",
     discountId: 'dsc_01kn733smjmmk9y4qhyhymvrfe',
@@ -45,7 +45,7 @@ export const PRICING_TIERS_CLAIM = [
     unit: "month",
     name: "Annual",
     defaultPrice: 79.99,
-    originalPrice: 65.89, //239 dan endirime claimsiz gelende
+    original: 65.89, //239 dan endirime claimsiz gelende
     discount: "80% OFF",
     claimOffer: "+2 month free",
     montly_price: 65.89,
@@ -63,7 +63,7 @@ export const PRICING_TIERS = [
     id: "pro_weekly",
     unit: "week",
     name: "Weekly",
-    originalPrice: 5.99,
+    original: 5.99,
     description: "Perfect for short-term projects.",
     priceId: "pri_01kn72e7s269tnzcakpvf9fvs5", 
     features: ['Unlimited notes', 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
@@ -74,7 +74,7 @@ export const PRICING_TIERS = [
     id: "pro_monthly",
     name: "Monthly",
     defaultPrice: 34.99,
-    originalPrice: 11.99,
+    original: 11.99,
     discountId: 'dsc_01kn728x05nvebcaadtwavjyjv',
     discount: "50% OFF",
     description: "Recommended for ongoing usage.",
@@ -88,7 +88,7 @@ export const PRICING_TIERS = [
     name: "Annual",
     unit: "month",
     defaultPrice: 239.99,
-    originalPrice: 79.99, //239 dan endirime claimsiz gelende
+    original: 79.99, //239 dan endirime claimsiz gelende
     discount: "80% OFF",
     discountId: 'dsc_01kn7312xn4mas8fn4bbybkadp',
     description: "Best value. Save significantly.",
@@ -182,7 +182,7 @@ export default function Pricing({ banner }: { banner?: any }) {
             const isSelected = hasPromo ? tier.key === "annual" : tier.isPopular;
             
             // Base Prices from Data
-            let finalOriginal = tier.originalPrice;
+            let finalOriginal = tier.original;
             let finalDefault = tier.defaultPrice;
 
             // Override with Live Paddle Prices if available
