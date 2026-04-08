@@ -129,7 +129,7 @@ export default function Pricing({ banner }: { banner?: any }) {
             if (plan) {
               const currentNum = parseInt(item.formattedTotals.total.replace(/[^0-9]/g, ""), 10) / 100;
               const subtotalNum = parseInt(item.formattedTotals.subtotal.replace(/[^0-9]/g, ""), 10) / 100;
-              
+              //console.log("currentNum", currentNum, "subtotalNum", subtotalNum !== currentNum ? subtotalNum : null)
               priceMap[plan.key] = {
                 current: currentNum,
                 original: subtotalNum !== currentNum ? subtotalNum : null,
@@ -151,7 +151,7 @@ export default function Pricing({ banner }: { banner?: any }) {
 
   // Helper to map buttons back to your old text style
   const getButtonText = (key: string, hasPromo?: boolean) => {
-    console.log("Determining button text for:", key, hasPromo);
+    //console.log("Determining button text for:", key, hasPromo);
     if (key === "weekly") return "Start 7-Day Access";
     if (key === "monthly") return "Get Monthly";
     if (key === "annual") return "Get Annual Plan";
@@ -184,8 +184,7 @@ export default function Pricing({ banner }: { banner?: any }) {
             
             // Base Prices from Data
             let finalOriginal = tier.original;
-            let finalDefault = tier.defaultPrice;
-
+            let finalDefault:number | null = tier.defaultPrice;
             // Override with Live Paddle Prices if available
             if (livePrices[tier.key]) {
               finalOriginal = livePrices[tier.key].current;
