@@ -4,7 +4,7 @@ import { type VariantProps } from "class-variance-authority";
 import { ArrowRightIcon, Globe, StarIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
