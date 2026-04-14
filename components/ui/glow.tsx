@@ -3,7 +3,7 @@ import React from "react";
 
 import { cn } from "@/lib/utils";
 
-const glowVariants = cva("absolute w-full", {
+const glowVariants = cva("absolute w-full pointer-events-none", {
   variants: {
     variant: {
       top: "top-0",

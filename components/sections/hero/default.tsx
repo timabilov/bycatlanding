@@ -4,7 +4,7 @@ import { type VariantProps } from "class-variance-authority";
 import { ArrowRightIcon, Globe, StarIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../../ui/button";
 import Glow from "../../ui/glow";
 import HeroIllustration from "../../ui/hero-illustration";
+import HeroVideo from "../../ui/hero-video";
 import { Section } from "../../ui/section";
 import Banner from "@/components/ui/banner";
 
@@ -124,7 +125,7 @@ interface HeroProps {
 export default function Hero({
   title = "The AI Study App for PDFs, YouTube, and Audio Lectures.",
   description = "Upload up to 500-page documents or 2-hour videos. Bycat AI identifies your weakest areas and drills them with auto-generated flashcards and quizzes.",
-  
+
   // *** MOCKUP SECTION REPLACED ***
   mockup = (
     <StaticImageStack className="w-full" />
@@ -167,7 +168,7 @@ export default function Hero({
   return (
     <Section
       className={cn(
-        "fade-bottom overflow-hidden px-0 pb-0 pt-8 sm:pb-0 sm:pt-12 md:pb-0 md:py-10",
+        "overflow-hidden px-0 pb-0 pt-8 sm:pb-0 sm:pt-12 md:pb-0 md:py-10 [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_92%,transparent_100%)]",
         className,
       )}
     >
@@ -181,16 +182,14 @@ export default function Hero({
               </div>
             )}
 
-            
-            
             <h1 className="animate-appear relative z-10 text-4xl font-bold leading-tight text-foreground opacity-0 sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
               {title}
             </h1>
-            
+
             <p className="animate-appear relative z-10 text-base font-normal text-muted-foreground opacity-0 delay-100 sm:text-lg">
               {description}
             </p>
-            
+
             {buttons !== false && buttons.length > 0 && (
               <div className="animate-appear relative z-10 flex flex-col sm:flex-row gap-4 opacity-0 delay-300 w-full sm:w-auto">
                 {buttons.map((button, index) => (
@@ -220,7 +219,7 @@ export default function Hero({
                     className="size-8 overflow-hidden rounded-full border-2 border-background"
                   >
                     <img
-                      src={`/${name}`} 
+                      src={`/${name}`}
                       alt="User"
                       width={32}
                       height={32}
@@ -244,23 +243,23 @@ export default function Hero({
               </div>
             </div>
           </div>
-          
+
           {/* Right illustration */}
           <div className="relative hidden lg:block lg:flex-1">
             <HeroIllustration />
           </div>
         </div>
-        
-        {/* Mockup Section */}
-        {mockup !== false && (
-          <div className="relative w-full pt-6 sm:pt-8 sm:px-12 md:px-24">
-            {mockup}
-            <Glow
-              variant="top"
-              className="animate-appear-zoom opacity-0 delay-1000"
-            />
+
+        {/* Video section */}
+        <div className="relative w-full pt-6 sm:pt-8">
+          <div className="relative z-10 animate-appear opacity-0 delay-700">
+            <HeroVideo variant="below" />
           </div>
-        )}
+          <Glow
+            variant="top"
+            className="pointer-events-none animate-appear-zoom opacity-0 delay-1000"
+          />
+        </div>
       </div>
     </Section>
   );
