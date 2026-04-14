@@ -168,7 +168,7 @@ export default function Hero({
   return (
     <Section
       className={cn(
-        "overflow-hidden px-0 pb-0 pt-8 sm:pb-0 sm:pt-12 md:pb-0 md:py-10 [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_92%,transparent_100%)]",
+        "overflow-hidden px-0 pb-0 pt-8 sm:pb-0 sm:pt-12 md:pb-0 md:py-10",
         className,
       )}
     >
@@ -261,6 +261,9 @@ export default function Hero({
           />
         </div>
       </div>
+
+      {/* Smooth transition to next section — sits below the video, not on top of it */}
+      <div className="pointer-events-none h-24 w-full bg-gradient-to-b from-transparent to-background sm:h-32" />
     </Section>
   );
 }

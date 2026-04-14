@@ -10,22 +10,44 @@ interface HeroVideoProps {
 }
 
 export default function HeroVideo({ className, variant = "below" }: HeroVideoProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [hasPlayed, setHasPlayed] = useState(false);
 
-  // Keep the muted property in sync — React doesn't handle the muted attribute reactively
+  // Keep the muted property in sync
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.muted = isMuted;
     }
   }, [isMuted]);
 
+  // Play video when scrolled into view — IntersectionObserver is supported
+  // on all modern browsers, iOS Safari 12.2+, iPad, Chrome, Firefox
+  useEffect(() => {
+    const video = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasPlayed) {
+          video.play().catch(() => {});
+          setHasPlayed(true);
+        }
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [hasPlayed]);
+
   const handleToggleMute = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (!videoRef.current) return;
 
-    // If video was paused (e.g. browser blocked autoplay), also play it
     if (videoRef.current.paused) {
       videoRef.current.play().catch(() => {});
     }
@@ -35,6 +57,7 @@ export default function HeroVideo({ className, variant = "below" }: HeroVideoPro
 
   return (
     <div
+      ref={containerRef}
       className={cn(
         "group relative mx-auto",
         variant === "right" && "w-full h-full flex items-center justify-center",
@@ -54,15 +77,15 @@ export default function HeroVideo({ className, variant = "below" }: HeroVideoPro
               ref={videoRef}
               className="block w-full aspect-video object-contain bg-black/5 dark:bg-black/20"
               src="/bycatdemo.mp4"
-              autoPlay
               muted
               playsInline
               loop
+              preload="auto"
             >
               Your browser does not support the video tag.
             </video>
 
-            {/* Mute/Unmute button — bottom right, high visibility */}
+            {/* Mute/Unmute button */}
             <button
               type="button"
               onClick={handleToggleMute}
@@ -80,10 +103,6 @@ export default function HeroVideo({ className, variant = "below" }: HeroVideoPro
                 </>
               )}
             </button>
-
-            {/* Subtle edge fades — premium SaaS feel */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background/40 to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background/50 to-transparent" />
           </div>
         </div>
       </div>
