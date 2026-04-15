@@ -54,10 +54,9 @@ export default function Navbar({
     // { text: "Components", href: siteConfig.navigation.components },
     // { text: "Blocks", href: siteConfig.navigation.blocks },
     // { text: "Illustrations", href: siteConfig.navigation.illustrations },
-    { text: "Blogs", href: "/blogs" },
-    { text: "Pricing", href: siteConfig.navigation.pricing },
-    { text: "Terms & Conditions", href: siteConfig.navigation.pricing },
-    { text: "Privacy policy", href: siteConfig.navigation.pricing },
+    { text: "Blogs", href: siteConfig.navigation.blogs },
+    { text: "Terms & Conditions", href: siteConfig.navigation.terms },
+    { text: "Privacy Policy", href: siteConfig.navigation.privacy },
   ],
   actions = [
     { text: "Sign in", href: siteConfig.url, isButton: false },

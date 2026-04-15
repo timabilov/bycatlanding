@@ -166,6 +166,10 @@ function FormatCarousel() {
   );
 }
 
+// --- HERO VIDEO SOURCE (change this to swap the video) ---
+// const HERO_VIDEO_SRC = "/ailivegrid.mp4";
+const HERO_VIDEO_SRC = "https://bycatassets.com/bycat-ai-live.mp4";
+
 // --- 3. MAIN COMPONENT ---
 
 interface HeroButtonProps {
@@ -312,7 +316,7 @@ export default function Hero({
           <div className="relative hidden lg:flex lg:flex-1 items-center justify-center overflow-hidden">
             <div className="relative w-full max-w-[420px] aspect-square rounded-2xl overflow-hidden shadow-2xl border border-border/40">
               <video
-                src="https://bycatassets.com/bycat-ai-live.mp4"
+                src={HERO_VIDEO_SRC}
                 autoPlay
                 loop
                 muted

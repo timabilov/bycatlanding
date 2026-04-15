@@ -1,0 +1,21 @@
+{
+  "name": "Bycat AI",
+  "short_name": "Bycat",
+  "description": "AI study app — notes, flashcards, and quizzes from lectures, PDFs, and YouTube.",
+  "start_url": "https://app.bycat.ai",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
