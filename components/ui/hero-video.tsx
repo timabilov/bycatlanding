@@ -76,7 +76,7 @@ export default function HeroVideo({ className, variant = "below" }: HeroVideoPro
             <video
               ref={videoRef}
               className="block w-full aspect-video object-contain bg-black/5 dark:bg-black/20"
-              src="/bycatdemo.mp4"
+              src="https://bycatassets.com/bycatdemoiosweb.mp4"
               muted
               playsInline
               loop
