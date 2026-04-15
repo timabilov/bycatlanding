@@ -22,25 +22,33 @@ export default function HeroVideo({ className, variant = "below" }: HeroVideoPro
     }
   }, [isMuted]);
 
-  // Play video when scrolled into view — IntersectionObserver is supported
-  // on all modern browsers, iOS Safari 12.2+, iPad, Chrome, Firefox
+  // Play video when scrolled into view with a 1.5s delay.
+  // IntersectionObserver + playsinline + muted ensures autoplay
+  // works on iOS Safari, Android Chrome, and all modern browsers.
   useEffect(() => {
     const video = videoRef.current;
     const container = containerRef.current;
     if (!video || !container) return;
 
+    let delayTimer: ReturnType<typeof setTimeout>;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasPlayed) {
-          video.play().catch(() => {});
-          setHasPlayed(true);
+          delayTimer = setTimeout(() => {
+            video.play().catch(() => {});
+            setHasPlayed(true);
+          }, 1000);
         }
       },
       { threshold: 0.3 },
     );
 
     observer.observe(container);
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(delayTimer);
+      observer.disconnect();
+    };
   }, [hasPlayed]);
 
   const handleToggleMute = useCallback((e: React.MouseEvent) => {

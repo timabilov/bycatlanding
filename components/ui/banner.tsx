@@ -72,9 +72,9 @@ export default function Banner({ promoData }: BannerProps) {
             }}
           />
 
-          <span className="relative inline-flex h-full w-full items-center justify-center rounded-full bg-background px-4 py-1.5 text-sm font-medium text-foreground backdrop-blur-3xl transition-all group-hover:bg-background/90">
-            
-            <div className="flex items-center gap-2 sm:gap-3">
+          <span className="relative inline-flex h-full w-full items-center justify-center rounded-full bg-background px-2.5 sm:px-4 py-1.5 text-sm font-medium text-foreground backdrop-blur-3xl transition-all group-hover:bg-background/90">
+
+            <div className="flex items-center gap-1.5 sm:gap-3">
               <span className="flex items-center gap-1.5 rounded-full bg-pink-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-pink-500 ring-1 ring-inset ring-pink-500/20">
                 🔥 Sale
               </span>
@@ -83,14 +83,13 @@ export default function Banner({ promoData }: BannerProps) {
                 <span>50% Off Annual Plans</span>
                 <span className="hidden sm:inline w-px h-3 bg-border mx-1"></span>
                 
-                <span className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-foreground/90 font-semibold">
-                  <Timer className="size-3.5 text-pink-500 animate-wiggle" />
-                  
+                <span className="flex items-center gap-1 sm:gap-1.5 font-mono text-[10px] sm:text-xs text-foreground/90 font-semibold">
+                  <Timer className="size-3 sm:size-3.5 text-pink-500 animate-wiggle" />
+
                   <span className="tabular-nums tracking-tight">
-                    {/* 4. Applied your 'format' function here so it stays a consistent width */}
-                    {mounted 
-                      ? `${timeLeft.d} days ${format(timeLeft.h)} h ${format(timeLeft.m)} m ${format(timeLeft.s)} s` 
-                      : "00 days 00 h 00 m 00 s"}
+                    {mounted
+                      ? `${timeLeft.d}d ${format(timeLeft.h)}h ${format(timeLeft.m)}m ${format(timeLeft.s)}s`
+                      : "00d 00h 00m 00s"}
                   </span>
                 </span>
               </span>

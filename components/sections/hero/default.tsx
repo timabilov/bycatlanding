@@ -1,6 +1,7 @@
 "use client";
 
 import { type VariantProps } from "class-variance-authority";
+import { motion } from "framer-motion";
 import { ArrowRightIcon, Globe, StarIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -102,6 +103,68 @@ const AppleLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// --- FORMAT CAROUSEL ---
+
+const FORMATS = [
+  { label: "PDFs", icon: "/pdf.svg" },
+  { label: "Videos", icon: "/yt.svg" },
+  { label: "Audio", icon: "/mic.svg" },
+  { label: "Notes", icon: "/text.svg" },
+];
+
+function FormatCarousel() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const interval = setInterval(() => {
+      setActive((prev) => (prev + 1) % FORMATS.length);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, [paused]);
+
+  return (
+    <div className="flex items-center gap-1.5 sm:gap-3">
+      {FORMATS.map((fmt, i) => {
+        const isActive = i === active;
+        return (
+          <motion.button
+            key={fmt.label}
+            onClick={() => { setActive(i); setPaused(true); setTimeout(() => setPaused(false), 5000); }}
+            className={cn(
+              "relative flex items-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-xl px-2 py-1.5 sm:px-4 sm:py-2.5 text-xs sm:text-base font-medium transition-colors cursor-pointer",
+              "border border-transparent",
+              isActive
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground/80"
+            )}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            {isActive && (
+              <motion.div
+                layoutId="format-highlight"
+                className="absolute inset-0 rounded-lg sm:rounded-xl border border-primary/30 bg-primary/[0.08]"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            <img
+              src={fmt.icon}
+              alt=""
+              className={cn(
+                "relative z-10 size-5 sm:size-7 rounded-md sm:rounded-lg transition-all duration-300",
+                isActive ? "scale-110" : "opacity-60"
+              )}
+            />
+            <span className="relative z-10">{fmt.label}</span>
+          </motion.button>
+        );
+      })}
+    </div>
+  );
+}
+
 // --- 3. MAIN COMPONENT ---
 
 interface HeroButtonProps {
@@ -116,21 +179,15 @@ interface HeroButtonProps {
 interface HeroProps {
   title?: string;
   description?: string;
-  mockup?: ReactNode | false;
   badge?: ReactNode | false;
   buttons?: HeroButtonProps[] | false;
   className?: string;
 }
 
 export default function Hero({
-  title = "The AI Study App for PDFs, YouTube, and Audio Lectures.",
-  description = "Upload up to 500-page documents or 2-hour videos. Bycat AI identifies your weakest areas and drills them with auto-generated flashcards and quizzes.",
+  title = "Study Less. Master More.",
+  description = "Drop any PDF, video, or lecture — Bycat AI turns it into flashcards, quizzes, and live drill sessions in seconds.",
 
-  // *** MOCKUP SECTION REPLACED ***
-  mockup = (
-    <StaticImageStack className="w-full" />
-  ),
-  
   badge = (
     <a href="https://apps.apple.com/us/app/leitner-ai-note-quiz-alerts/id6747087851" target="_blank" rel="noopener noreferrer" className="relative z-10 animate-appear">
       <div className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white/5 p-[1px] dark:border-white/10">
@@ -182,11 +239,17 @@ export default function Hero({
               </div>
             )}
 
-            <h1 className="animate-appear relative z-10 text-4xl font-bold leading-tight text-foreground opacity-0 sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
+            <h1 className="animate-appear relative z-10 text-3xl font-bold leading-tight text-foreground opacity-0 sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
               {title}
+              <br />
+              <span className="text-white/90">Stay sharp.</span>
             </h1>
 
-            <p className="animate-appear relative z-10 text-base font-normal text-muted-foreground opacity-0 delay-100 sm:text-lg">
+            <div className="animate-appear relative z-10 opacity-0 delay-75">
+              <FormatCarousel />
+            </div>
+
+            <p className="animate-appear relative z-10 text-base font-normal text-neutral-600 dark:text-neutral-300 opacity-0 delay-100 sm:text-lg">
               {description}
             </p>
 
@@ -237,7 +300,7 @@ export default function Hero({
                     />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-neutral-500 dark:text-neutral-400">
                   Used by 20k+ students and teachers
                 </span>
               </div>

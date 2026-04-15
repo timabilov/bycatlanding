@@ -176,7 +176,7 @@ export default function Pricing({ banner }: { banner?: any }) {
           <h2 className="text-3xl font-bold tracking-tight sm:text-5xl mb-4">
             Invest in your grades.
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-neutral-600 dark:text-neutral-300 text-lg">
             Choose the plan that fits your study schedule. Cancel anytime.
           </p>
         </div>
