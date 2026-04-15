@@ -28,49 +28,49 @@ interface ItemsProps {
 }
 
 export default function Items({
-  title = "Turn any content into knowledge.",
+  title = "Everything you actually need to study smarter.",
   items = [
     {
-      title: "YouTube to Notes AI Summary",
-      description: "Paste a YouTube link and get a comprehensive summary, transcript, and key points in seconds.",
+      title: "YouTube to Notes",
+      description: "Drop a lecture link, get clean notes. No more rewatching 2-hour videos to find that one concept.",
       icon: <YoutubeIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Smart PDF Reader & Chat",
-      description: "Upload textbooks, research papers, or slides. We extract the text and organize the insights for you.",
+      title: "PDF & Paper Reader",
+      description: "Upload your textbook or research paper. We pull out what matters so you can skip the fluff.",
       icon: <FileTextIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Audio Lecture Transcription",
+      title: "Audio Transcription",
       description:
-        "Record lectures or upload audio files. Perfect for meetings, seminars, and voice memos.",
+        "Record your lecture or drop in an audio file. Get a full transcript you can actually search through.",
       icon: <MicIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Visual Learning",
-      description: "Snap a photo of the whiteboard or upload screenshots. Our AI analyzes images to extract information.",
+      title: "Image to Notes",
+      description: "Snap the whiteboard before it gets erased. Upload slides, diagrams, screenshots — we read it all.",
       icon: <ImageIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Interactive AI Chat",
-      description: "Don't just read—ask. Chat with your notes to clear up doubts or dig deeper into specific topics.",
+      title: "Chat With Your Notes",
+      description: "Stuck on something? Ask your notes directly. It's like having a study buddy who actually read the material.",
       icon: <MessageSquareTextIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Custom Prompts",
-      description: "Tailor the output to your needs. Ask for a glossary, a 5th-grade explanation, or a specific summary format.",
+      title: "Custom Output",
+      description: "Need a glossary? A simplified breakdown? Flashcard format? Tell it what you need, get exactly that.",
       icon: <SparklesIcon className="size-5 stroke-1" />,
     },
     {
-      title: "Live AI Study Sessions",
+      title: "Live AI Tutor",
       description:
-        "Need extra help? Hop into an interactive chat with our advanced AI tutor. Enjoy 2 live sessions daily to prep for your exams with total confidence.",
+        "Real-time help when you're stuck. 2 sessions a day with an AI that actually understands your material.",
       icon: <Headset className="size-5 stroke-1" />,
     },
     {
-      title: "Sync Across Devices",
+      title: "Works Everywhere",
       description:
-        "Start on the web, review on the go. Your library and study progress sync seamlessly to our mobile app.",
+        "Web, iOS, Android. Start studying on your laptop, keep going on the bus. Everything stays in sync.",
       icon: <SmartphoneIcon className="size-5 stroke-1" />,
     },
   ],

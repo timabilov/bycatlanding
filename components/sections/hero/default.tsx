@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils";
 
 import { Button, buttonVariants } from "../../ui/button";
 import Glow from "../../ui/glow";
-import HeroIllustration from "../../ui/hero-illustration";
 import HeroVideo from "../../ui/hero-video";
 import { Section } from "../../ui/section";
 import Banner from "@/components/ui/banner";
@@ -309,9 +308,18 @@ export default function Hero({
             </div>
           </div>
 
-          {/* Right illustration */}
-          <div className="relative hidden lg:block lg:flex-1 overflow-hidden">
-            <HeroIllustration />
+          {/* Right video */}
+          <div className="relative hidden lg:flex lg:flex-1 items-center justify-center overflow-hidden">
+            <div className="relative w-full max-w-[420px] aspect-square rounded-2xl overflow-hidden shadow-2xl border border-border/40">
+              <video
+                src="https://bycatassets.com/bycat-ai-live.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="size-full object-cover"
+              />
+            </div>
           </div>
         </div>
 

@@ -1,9 +1,8 @@
 import { ReactNode } from "react";
 import { 
-  FileTextIcon, 
-  HardDriveUploadIcon, 
-  InfinityIcon, 
-  MicIcon, 
+  FileTextIcon,
+  HardDriveUploadIcon,
+  MicIcon,
   YoutubeIcon,
   LucideIcon,
   MessageCircle
@@ -75,11 +74,6 @@ export default function Capabilities({
       icon: HardDriveUploadIcon,
       label: "Uploads",
       limit: "Max 100 MB",
-    },
-    {
-      icon: InfinityIcon,
-      label: "Context",
-      limit: "Unlimited",
     },
     {
       icon: MessageCircle,
