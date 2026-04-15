@@ -106,10 +106,10 @@ const AppleLogo = ({ className }: { className?: string }) => (
 // --- FORMAT CAROUSEL ---
 
 const FORMATS = [
-  { label: "PDFs", icon: "/pdf.svg" },
-  { label: "Videos", icon: "/yt.svg" },
-  { label: "Audio", icon: "/mic.svg" },
-  { label: "Notes", icon: "/text.svg" },
+  { label: "PDFs", icon: "/pdf.svg", lightBg: "normal" as const },
+  { label: "Videos", icon: "/yt.svg", lightBg: false as const },
+  { label: "Audio", icon: "/mic.svg", lightBg: false as const },
+  { label: "Notes", icon: "/text.svg", lightBg: "tight" as const },
 ];
 
 function FormatCarousel() {
@@ -154,6 +154,8 @@ function FormatCarousel() {
               alt=""
               className={cn(
                 "relative z-10 size-5 sm:size-7 lg:size-5 xl:size-7 rounded-md sm:rounded-lg lg:rounded-md xl:rounded-lg transition-all duration-300",
+                fmt.lightBg === "normal" && "dark:bg-transparent bg-neutral-800/80 p-0.5 dark:p-0",
+                fmt.lightBg === "tight" && "dark:bg-transparent bg-neutral-800/80 p-[3px] dark:p-0 rounded-sm sm:rounded-md lg:rounded-sm xl:rounded-md",
                 isActive ? "scale-110" : "opacity-60"
               )}
             />
@@ -242,7 +244,7 @@ export default function Hero({
             <h1 className="animate-appear relative z-10 text-3xl font-bold leading-tight text-foreground opacity-0 sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
               {title}
               <br />
-              <span className="text-white/90">Stay sharp.</span>
+              <span className="text-black dark:text-white/90">Stay sharp.</span>
             </h1>
 
             <div className="animate-appear relative z-10 opacity-0 delay-75">
