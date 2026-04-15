@@ -125,7 +125,7 @@ function FormatCarousel() {
   }, [paused]);
 
   return (
-    <div className="flex items-center gap-1.5 sm:gap-3">
+    <div className="flex items-center gap-1.5 sm:gap-3 lg:gap-1.5 xl:gap-3">
       {FORMATS.map((fmt, i) => {
         const isActive = i === active;
         return (
@@ -133,7 +133,7 @@ function FormatCarousel() {
             key={fmt.label}
             onClick={() => { setActive(i); setPaused(true); setTimeout(() => setPaused(false), 5000); }}
             className={cn(
-              "relative flex items-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-xl px-2 py-1.5 sm:px-4 sm:py-2.5 text-xs sm:text-base font-medium transition-colors cursor-pointer",
+              "relative flex items-center gap-1.5 sm:gap-2 lg:gap-1.5 xl:gap-2 rounded-lg sm:rounded-xl px-2 py-1.5 sm:px-4 sm:py-2.5 lg:px-2.5 lg:py-1.5 xl:px-4 xl:py-2.5 text-xs sm:text-base lg:text-sm xl:text-base font-medium transition-colors cursor-pointer",
               "border border-transparent",
               isActive
                 ? "text-foreground"
@@ -145,7 +145,7 @@ function FormatCarousel() {
             {isActive && (
               <motion.div
                 layoutId="format-highlight"
-                className="absolute inset-0 rounded-lg sm:rounded-xl border border-primary/30 bg-primary/[0.08]"
+                className="absolute inset-0 rounded-lg sm:rounded-xl lg:rounded-lg xl:rounded-xl border border-primary/30 bg-primary/[0.08]"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
               />
             )}
@@ -153,7 +153,7 @@ function FormatCarousel() {
               src={fmt.icon}
               alt=""
               className={cn(
-                "relative z-10 size-5 sm:size-7 rounded-md sm:rounded-lg transition-all duration-300",
+                "relative z-10 size-5 sm:size-7 lg:size-5 xl:size-7 rounded-md sm:rounded-lg lg:rounded-md xl:rounded-lg transition-all duration-300",
                 isActive ? "scale-110" : "opacity-60"
               )}
             />
@@ -308,7 +308,7 @@ export default function Hero({
           </div>
 
           {/* Right illustration */}
-          <div className="relative hidden lg:block lg:flex-1">
+          <div className="relative hidden lg:block lg:flex-1 overflow-hidden">
             <HeroIllustration />
           </div>
         </div>
