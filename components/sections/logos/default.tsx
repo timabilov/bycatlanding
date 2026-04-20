@@ -1,115 +1,128 @@
-import { ReactNode } from "react";
-import { 
-  FileTextIcon,
-  HardDriveUploadIcon,
-  MicIcon,
-  YoutubeIcon,
-  LucideIcon,
-  MessageCircle
-} from "lucide-react";
+"use client";
 
-import { Badge } from "../../ui/badge";
 import { Section } from "../../ui/section";
-import { cn } from "@/lib/utils";
 
-// --- Custom Item Component for Organic Look ---
-interface LimitItemProps {
-  icon: LucideIcon;
-  label: string;
-  limit: string;
-}
+const UNIVERSITIES = [
+  { name: "Stanford", sub: "University", style: "serif-sans" },
+  { name: "HARVARD", sub: "· University", style: "serif-caps" },
+  { name: "MIT", sub: "", style: "sans-bold" },
+  { name: "Oxford", sub: "", style: "old-serif" },
+  { name: "Cambridge", sub: "", style: "old-serif" },
+  { name: "Yale", sub: "University", style: "serif-sans" },
+  { name: "PRINCETON", sub: "", style: "serif-caps" },
+  { name: "Columbia", sub: "University", style: "serif-sans" },
+  { name: "UCL", sub: "", style: "sans-bold" },
+  { name: "Imperial", sub: "College London", style: "serif-sans" },
+  { name: "Berkeley", sub: "· UC", style: "serif-sans" },
+  { name: "NYU", sub: "", style: "sans-bold" },
+  { name: "ETH Zürich", sub: "", style: "sans-bold" },
+  { name: "Tsinghua", sub: "清華", style: "serif-sans" },
+  { name: "Tokyo", sub: "東京大學", style: "serif-sans" },
+];
 
-const LimitItem = ({ icon: Icon, label, limit }: LimitItemProps) => (
-  <div className="group flex flex-col items-center gap-3">
-    {/* Organic Icon Container */}
-    <div className="flex size-12 items-center justify-center rounded-2xl border border-border/40 bg-background/50 shadow-sm transition-all duration-300 group-hover:border-foreground/20 group-hover:bg-accent group-hover:shadow-md">
-      <Icon className="size-6 text-muted-foreground transition-colors group-hover:text-foreground" />
-    </div>
-    
-    <div className="flex flex-col items-center gap-1.5">
-      <span className="text-sm font-medium text-foreground">{label}</span>
-      {/* Subtle, Organic Badge */}
-      <span className="inline-flex items-center rounded-full border border-border/50 bg-secondary/30 px-2 py-0.5 text-[10px] font-medium text-muted-foreground backdrop-blur-sm transition-colors group-hover:bg-secondary/50 group-hover:text-secondary-foreground">
-        {limit}
-      </span>
-    </div>
-  </div>
-);
+const fontStyles: Record<string, React.CSSProperties> = {
+  "serif-sans": {
+    fontFamily: "'Times New Roman', Georgia, serif",
+    fontSize: "24px",
+    fontWeight: 400,
+  },
+  "serif-caps": {
+    fontFamily: "'Times New Roman', Georgia, serif",
+    fontSize: "20px",
+    fontWeight: 400,
+    letterSpacing: "0.22em",
+  },
+  "old-serif": {
+    fontFamily: "'Times New Roman', Georgia, serif",
+    fontSize: "26px",
+    fontWeight: 400,
+    fontStyle: "italic",
+    letterSpacing: "-0.02em",
+  },
+  "sans-bold": {
+    fontFamily: "inherit",
+    fontSize: "24px",
+    fontWeight: 700,
+    letterSpacing: "-0.04em",
+  },
+};
 
-// --- Main Component ---
-
-interface CapabilitiesProps {
-  title?: string;
-  badge?: ReactNode | false;
-  className?: string;
-}
-
-export default function Capabilities({
-  title = "Generous limits for deep work",
-  badge = (
-    <Badge variant="outline" className=" shadow-primary/10 border-primary/20 text-primary bg-primary/5 shadow-lg">
-      Powerhouse Capabilities
-    </Badge>
-  ),
-  className,
-}: CapabilitiesProps) {
-  
-  const limits = [
-    {
-      icon: YoutubeIcon,
-      label: "YouTube",
-      limit: "Max 2 Hours",
-    },
-    {
-      icon: MicIcon,
-      label: "Audio",
-      limit: "Max 3 Hours",
-    },
-    {
-      icon: FileTextIcon,
-      label: "Documents",
-      limit: "Up to 500 Pages",
-    },
-    {
-      icon: HardDriveUploadIcon,
-      label: "Uploads",
-      limit: "Max 100 MB",
-    },
-    {
-      icon: MessageCircle,
-      label: "AI Chat",
-      limit: "Unlimited",
-    },
-    {
-      icon: MessageCircle,
-      label: "Live AI Session",
-      limit: "2x Daily",
-    },
-  ];
+export default function UniversityRail() {
+  // Duplicate for seamless loop
+  const list = [...UNIVERSITIES, ...UNIVERSITIES];
 
   return (
-    <Section className={className}>
-      <div className="max-w-container mx-auto flex flex-col items-center gap-10 text-center">
-        {/* Header Section */}
-        <div className="flex flex-col items-center gap-4">
-          {badge !== false && badge}
-          <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl text-balance">
-            {title}
-          </h2>
-        </div>
+    <section className="py-16" aria-label="Universities">
+      <div className="max-w-container mx-auto px-4 mb-8 text-center">
+        <p
+          className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground"
+        >
+          Real students from 300+ universities
+        </p>
+      </div>
 
-        {/* Limits Grid - using flex wrap to center naturally */}
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-10 sm:gap-x-16">
-          {limits.map((item, index) => (
-            <LimitItem 
-              key={index} 
-              icon={item.icon} 
-              label={item.label} 
-              limit={item.limit} 
-            />
+      <div
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          maskImage:
+            "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "56px",
+            width: "max-content",
+            animation: "uni-scroll 50s linear infinite",
+            alignItems: "center",
+            padding: "0 28px",
+          }}
+          className="group-hover:[animation-play-state:paused]"
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLDivElement).style.animationPlayState = "paused";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLDivElement).style.animationPlayState = "running";
+          }}
+        >
+          {list.map((u, i) => (
+            <div
+              key={i}
+              style={{
+                display: "inline-flex",
+                alignItems: "baseline",
+                gap: "8px",
+                opacity: 0.45,
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+                transition: "opacity 0.2s",
+                cursor: "default",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLDivElement).style.opacity = "1";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.opacity = "0.45";
+              }}
+            >
+              <span
+                className="text-foreground"
+                style={fontStyles[u.style] || fontStyles["sans-bold"]}
+              >
+                {u.name}
+              </span>
+              {u.sub && (
+                <span className="text-muted-foreground" style={{ fontSize: "13px", letterSpacing: "0.02em" }}>
+                  {u.sub}
+                </span>
+              )}
+            </div>
           ))}
         </div>
       </div>
-    </Section>
+    </section>
   );
 }

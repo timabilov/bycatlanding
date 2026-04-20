@@ -312,7 +312,7 @@ export default function Pricing({ banner }: { banner?: any }) {
         {/* Bottom Note */}
         <div className="mt-16 text-center">
           <p className="text-sm text-muted-foreground">
-            All plans include access to the iOS and Android apps.
+            All plans include access to the iOS app.
             <br className="hidden sm:inline" />{" "}
             Need help? Read <a href="#" className="underline hover:text-foreground">Terms & conditions</a>.
           </p>

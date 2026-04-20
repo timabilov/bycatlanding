@@ -1,138 +1,116 @@
-import {
-  FileTextIcon,
-  Headset,
-  ImageIcon,
-  LanguagesIcon,
-  MessageSquareTextIcon,
-  MicIcon,
-  PhoneCall,
-  SmartphoneIcon,
-  SparklesIcon,
-  YoutubeIcon,
-} from "lucide-react";
-import { ReactNode } from "react";
-
-import { Item, ItemDescription, ItemIcon, ItemTitle } from "../../ui/item";
 import { Section } from "../../ui/section";
+import { FileTextIcon, MicIcon, YoutubeIcon, ImageIcon } from "lucide-react";
 
-interface ItemProps {
-  title: string;
-  description: string;
-  icon: ReactNode;
-}
-
-interface ItemsProps {
-  title?: string;
-  items?: ItemProps[] | false;
-  className?: string;
-}
-
-export default function Items({
-  title = "Everything you actually need to study smarter.",
-  items = [
-    {
-      title: "YouTube to Notes",
-      description: "Drop a lecture link, get clean notes. No more rewatching 2-hour videos to find that one concept.",
-      icon: <YoutubeIcon className="size-5 stroke-1" />,
-    },
-    {
-      title: "PDF & Paper Reader",
-      description: "Upload your textbook or research paper. We pull out what matters so you can skip the fluff.",
-      icon: <FileTextIcon className="size-5 stroke-1" />,
-    },
-    {
-      title: "Audio Transcription",
-      description:
-        "Record your lecture or drop in an audio file. Get a full transcript you can actually search through.",
-      icon: <MicIcon className="size-5 stroke-1" />,
-    },
-    {
-      title: "Image to Notes",
-      description: "Snap the whiteboard before it gets erased. Upload slides, diagrams, screenshots — we read it all.",
-      icon: <ImageIcon className="size-5 stroke-1" />,
-    },
-    {
-      title: "Chat With Your Notes",
-      description: "Stuck on something? Ask your notes directly. It's like having a study buddy who actually read the material.",
-      icon: <MessageSquareTextIcon className="size-5 stroke-1" />,
-    },
-    {
-      title: "Custom Output",
-      description: "Need a glossary? A simplified breakdown? Flashcard format? Tell it what you need, get exactly that.",
-      icon: <SparklesIcon className="size-5 stroke-1" />,
-    },
-    {
-      title: "Live AI Tutor",
-      description:
-        "Real-time help when you're stuck. 2 sessions a day with an AI that actually understands your material.",
-      icon: <Headset className="size-5 stroke-1" />,
-    },
-    {
-      title: "Works Everywhere",
-      description:
-        "Web, iOS, Android. Start studying on your laptop, keep going on the bus. Everything stays in sync.",
-      icon: <SmartphoneIcon className="size-5 stroke-1" />,
-    },
-  ],
-  className,
-}: ItemsProps) {
-  return (
-    <Section className={className}>
-      <div className="max-w-container mx-auto flex flex-col items-center gap-6 sm:gap-20">
-        <h2 className="max-w-[560px] text-center text-3xl leading-tight font-semibold sm:text-5xl sm:leading-tight">
-          {title}
-        </h2>
-        {items !== false && items.length > 0 && (
-          <div className="grid auto-rows-fr grid-cols-2 gap-0 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-            {items.map((item, index) => (
-              <Item key={index}>
-                <ItemTitle className="flex items-center gap-2">
-                  <ItemIcon>{item.icon}</ItemIcon>
-                  {item.title}
-                </ItemTitle>
-                <ItemDescription>{item.description}</ItemDescription>
-              </Item>
-            ))}
+const STEPS = [
+  {
+    num: "01",
+    title: "Drop anything in",
+    description:
+      "Lecture video, textbook PDF, voice memo, whiteboard photo, a YouTube link. Combine them into one note if you want.",
+    visual: (
+      <div className="flex gap-2 flex-wrap justify-center p-4">
+        {[
+          { icon: <FileTextIcon className="size-3.5" />, label: "slides.pdf" },
+          { icon: <YoutubeIcon className="size-3.5" />, label: "lecture.mp4" },
+          { icon: <MicIcon className="size-3.5" />, label: "memo.m4a" },
+          { icon: <ImageIcon className="size-3.5" />, label: "notes.png" },
+        ].map((f) => (
+          <div
+            key={f.label}
+            className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs text-muted-foreground"
+            style={{ border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)" }}
+          >
+            {f.icon}
+            {f.label}
           </div>
-        )}
+        ))}
+      </div>
+    ),
+  },
+  {
+    num: "02",
+    title: "Bycat reads it",
+    description:
+      "Real synthesis, not copy-paste. You get a structured summary, a searchable transcript, flashcards, and three difficulty tiers of quiz.",
+    visual: (
+      <div className="flex flex-col items-center gap-2 w-4/5 p-3 rounded-xl" style={{ border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.03)" }}>
+        <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-pink-500 to-orange-400"
+            style={{ width: "72%" }}
+          />
+        </div>
+        <p className="text-xs text-muted-foreground">Generating flashcards… 72%</p>
+      </div>
+    ),
+  },
+  {
+    num: "03",
+    title: "Drill until it sticks",
+    description:
+      "Live AI sessions twice daily. Quiz alerts for the questions you keep missing. Unlocks the next tier when you're actually ready.",
+    visual: (
+      <div className="flex items-center gap-3">
+        <div
+          className="size-11 rounded-full flex-shrink-0"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(236,72,153,0.6) 0%, rgba(236,72,153,0) 70%)",
+            boxShadow: "0 0 18px rgba(236,72,153,0.4)",
+          }}
+        />
+        <p className="text-sm text-foreground">Live AI session in 2h</p>
+      </div>
+    ),
+  },
+];
+
+export default function HowItWorks() {
+  return (
+    <Section>
+      <div className="max-w-container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-muted-foreground mb-4">
+            How it works
+          </span>
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl" style={{ letterSpacing: "-0.03em" }}>
+            Three steps, zero excuses.
+          </h2>
+          <p className="mt-3 text-muted-foreground max-w-md mx-auto text-base leading-relaxed">
+            You do the uploading. Bycat does the reading, summarising, quizzing, and nagging-you-to-study.
+          </p>
+        </div>
+
+        {/* Steps */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {STEPS.map((step) => (
+            <div
+              key={step.num}
+              className="flex flex-col gap-4 rounded-2xl p-6 transition-colors"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.07)",
+              }}
+            >
+              <div className="text-xs font-semibold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+                {step.num}
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight">{step.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed flex-1">{step.description}</p>
+              <div
+                className="h-[130px] rounded-xl flex items-center justify-center overflow-hidden"
+                style={{
+                  background: "rgba(13,11,20,0.9)",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                }}
+              >
+                {step.visual}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </Section>
   );
 }
-
-
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity":[
-        {
-          "@type": "Question",
-          "name": "What formats can Bycat AI process?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Bycat AI can process YouTube videos (up to 2 hours), Audio files (up to 3 hours), PDFs and Documents (up to 500 pages), and Images."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I use Bycat AI for languages other than English?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, Bycat AI features multi-language support. You can upload study materials in any language and translate complex texts or generate notes in your native tongue."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is Bycat AI available for Android and iOS?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes! All subscription plans include full access to both the iOS and Android mobile apps, syncing your study progress seamlessly across all devices."
-          }
-        }
-      ]
-    })
-  }}
-/>

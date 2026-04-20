@@ -1,113 +1,101 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useInView, animate } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Section } from "../../ui/section";
 
-// --- COUNTER COMPONENT ---
-const Counter = ({ value }: { value: number }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  // Trigger animation when element is 50px inside the viewport
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+const STATS = [
+  {
+    key: "notes",
+    initial: 2847293,
+    live: true,
+    increment: () => Math.floor(Math.random() * 4) + 1,
+    format: (n: number) => n.toLocaleString(),
+    label: "Notes generated",
+    showDot: true,
+  },
+  {
+    key: "online",
+    initial: 1247,
+    live: true,
+    // oscillates between 900-1800
+    increment: (n: number) => Math.max(900, Math.min(1800, n + (Math.random() > 0.5 ? 1 : -1))),
+    format: (n: number) => n.toLocaleString(),
+    label: "Studying now",
+    showDot: true,
+    oscillate: true,
+  },
+  {
+    key: "sessions",
+    initial: 18409,
+    live: true,
+    increment: (n: number) => n + (Math.random() > 0.7 ? 1 : 0),
+    format: (n: number) => n.toLocaleString(),
+    label: "AI sessions today",
+    showDot: false,
+  },
+  {
+    key: "rating",
+    initial: null,
+    live: false,
+    format: () => "4.9★",
+    label: "App Store rating",
+    showDot: false,
+  },
+];
+
+export default function Stats() {
+  const [notes, setNotes] = useState(2847293);
+  const [online, setOnline] = useState(1247);
+  const [sessions, setSessions] = useState(18409);
 
   useEffect(() => {
-    if (isInView && ref.current) {
-      const controls = animate(0, value, {
-        duration: 2.5,
-        ease: "easeOut",
-        onUpdate: (latest) => {
-          if (ref.current) {
-            // If the target value is a decimal (e.g. 1.5), keep 1 decimal place.
-            // Otherwise round to integer.
-            ref.current.textContent = 
-              value % 1 !== 0 ? latest.toFixed(1) : Math.round(latest).toString();
-          }
-        },
-      });
-      return () => controls.stop();
-    }
-  }, [isInView, value]);
+    const id = setInterval(() => {
+      setNotes((n) => n + Math.floor(Math.random() * 4) + 1);
+      setOnline((n) => Math.max(900, Math.min(1800, n + (Math.random() > 0.5 ? 1 : -1))));
+      setSessions((n) => n + (Math.random() > 0.7 ? 1 : 0));
+    }, 1400);
+    return () => clearInterval(id);
+  }, []);
 
-  return <span ref={ref}>0</span>;
-};
+  const cells = [
+    { value: notes.toLocaleString(), label: "Notes generated", dot: true, live: true },
+    { value: online.toLocaleString(), label: "Studying now", dot: true, live: true },
+    { value: sessions.toLocaleString(), label: "AI sessions today", dot: false, live: false },
+    { value: "4.9★", label: "App Store rating", dot: false, live: false },
+  ];
 
-// --- MAIN STATS COMPONENT ---
-
-interface StatItemProps {
-  label?: string;
-  value: number; // Changed to number to ensure math works
-  suffix?: string;
-  description?: string;
-}
-
-interface StatsProps {
-  items?: StatItemProps[] | false;
-  className?: string;
-}
-
-export default function Stats({
-  items = [
-    {
-      label: "trusted by",
-      value: 20,
-      suffix: "k+",
-      description: "students and researchers worldwide",
-    },
-    {
-      label: "processed",
-      value: 1.5,
-      suffix: "M",
-      description: "summaries and lecture notes generated",
-    },
-    {
-      label: "created",
-      value: 850,
-      suffix: "k",
-      description: "AI quizzes and flashcards generated",
-    },
-    {
-      label: "saved",
-      value: 120,
-      suffix: "k+",
-      description: "hours of study time for our users",
-    },
-  ],
-  className,
-}: StatsProps) {
   return (
-    <Section className={className}>
-      <div className="container mx-auto max-w-[960px]">
-        {items !== false && items.length > 0 && (
-          <div className="grid grid-cols-2 gap-12 sm:grid-cols-4">
-            {items.map((item, index) => (
+    <Section className="py-12">
+      <div className="max-w-container mx-auto px-4">
+        <div
+          className="grid grid-cols-2 sm:grid-cols-4 rounded-2xl border border-border overflow-hidden"
+        >
+          {cells.map((cell, i) => (
+            <div
+              key={i}
+              className="flex flex-col items-center justify-center gap-1.5 px-5 py-6 text-center border-r border-border last:border-r-0 [&:nth-child(2)]:border-r-0 sm:[&:nth-child(2)]:border-r [&:nth-child(1)]:border-b [&:nth-child(2)]:border-b sm:[&:nth-child(1)]:border-b-0 sm:[&:nth-child(2)]:border-b-0"
+            >
               <div
-                key={index}
-                className="flex flex-col items-start gap-3 text-left"
+                className="text-2xl sm:text-3xl font-semibold text-foreground tabular-nums"
+                style={{ letterSpacing: "-0.025em" }}
               >
-                {item.label && (
-                  <div className="text-muted-foreground text-sm font-semibold uppercase tracking-wider">
-                    {item.label}
-                  </div>
-                )}
-                <div className="flex items-baseline gap-1">
-                  <div className="bg-gradient-to-r from-foreground to-foreground/70 dark:to-primary bg-clip-text text-4xl font-bold text-transparent transition-all duration-300 sm:text-5xl md:text-6xl">
-                    <Counter value={item.value} />
-                  </div>
-                  {item.suffix && (
-                    <div className="text-primary text-2xl font-semibold mb-1">
-                      {item.suffix}
-                    </div>
-                  )}
-                </div>
-                {item.description && (
-                  <div className="text-muted-foreground text-sm font-medium text-pretty leading-relaxed">
-                    {item.description}
-                  </div>
-                )}
+                {cell.value}
               </div>
-            ))}
-          </div>
-        )}
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                {cell.dot && (
+                  <span
+                    className="inline-block size-1.5 rounded-full bg-emerald-500 flex-shrink-0"
+                    style={{
+                      boxShadow: "0 0 6px #22c55e",
+                      animation: "blink-dot 1.8s ease-in-out infinite",
+                    }}
+                  />
+                )}
+                {cell.label}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </Section>
   );
