@@ -205,7 +205,7 @@ export default function TikTokCarousel() {
             Real students. Real all-nighters.
           </h2>
           <p className="mt-3 text-muted-foreground text-base max-w-md mx-auto">
-            Tagged us, posted themselves, cried in public. We just made the tool.
+            When something actually helps at 2am, videos happen.
           </p>
         </div>
       </div>

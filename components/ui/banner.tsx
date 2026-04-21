@@ -77,9 +77,12 @@ export default function Banner({ promoData }: BannerProps) {
           <span className="inline-flex items-center gap-1.5 text-muted-foreground">
             <Clock className="size-3 flex-shrink-0" />
             <span className="font-mono text-xs tabular-nums text-foreground font-medium">
-              {mounted
-                ? `${timeLeft.d}d ${pad(timeLeft.h)}h ${pad(timeLeft.m)}m ${pad(timeLeft.s)}s`
-                : "—"}
+              {mounted ? (
+                <>
+                  <span className="sm:hidden">{`${timeLeft.d}d ${pad(timeLeft.h)}:${pad(timeLeft.m)}:${pad(timeLeft.s)}`}</span>
+                  <span className="hidden sm:inline">{`${timeLeft.d}d ${pad(timeLeft.h)}h ${pad(timeLeft.m)}m ${pad(timeLeft.s)}s`}</span>
+                </>
+              ) : "—"}
             </span>
           </span>
 
