@@ -6,11 +6,10 @@ import { Section } from "../../ui/section";
 const REVIEWS = [
   { quote: "It nags in a good way.",   views: "33.1K",  video: "ugcbycataisippingondesk" },
   { quote: "2am therapy sessions.",    views: "91.7K",  video: "ugcsimplebycatdeskroom" },
-  { quote: "I cried. Then I aced it.", views: "48.2K",  video: "ugcbycataisippingondesk" },
-  { quote: "11 papers / day.",         views: "127K",   video: "ugcsimplebycatdeskroom" },
-  { quote: "Humbled. Healed.",         views: "72.8K",  video: "ugcbycataisippingondesk" },
-  { quote: "92. On the bus.",          views: "56.4K",  video: "ugcsimplebycatdeskroom" },
   { quote: "My cat studies with me.",  views: "84.3K",  video: "ugcchessestickbycatai" },
+  { quote: "Humbled. Healed.",         views: "72.8K",  video: "midtermstressugc" },
+  { quote: "Crying into my notes.",    views: "61.5K",  video: "fooduserreview" },
+  { quote: "Dropped the book, kept the grade.", views: "44.9K", video: "droppingabookbycatai" },
 ];
 
 function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
