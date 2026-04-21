@@ -10,6 +10,7 @@ const REVIEWS = [
   { quote: "11 papers / day.",         views: "127K",   video: "ugcsimplebycatdeskroom" },
   { quote: "Humbled. Healed.",         views: "72.8K",  video: "ugcbycataisippingondesk" },
   { quote: "92. On the bus.",          views: "56.4K",  video: "ugcsimplebycatdeskroom" },
+  { quote: "My cat studies with me.",  views: "84.3K",  video: "ugcchessestickbycatai" },
 ];
 
 function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
