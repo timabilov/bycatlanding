@@ -478,7 +478,7 @@ export default function Hero({
           <div className="text-center mb-10 animate-appear opacity-0 delay-500">
             <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs text-muted-foreground mb-6" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
               <span className="size-1.5 rounded-full bg-primary flex-shrink-0" style={{ boxShadow: "0 0 8px #ec4899" }} />
-              90-second demo
+              30-second demo
             </span>
             <h2
               className="text-foreground font-semibold"
