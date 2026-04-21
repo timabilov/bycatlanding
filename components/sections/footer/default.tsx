@@ -61,8 +61,7 @@ export default function FooterSection({ glow, className }: FooterProps) {
             <FooterColumn>
               <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground pt-1">Product</h3>
               {[
-                { text: "How it works", href: "/#how-it-works" },
-                { text: "Reviews", href: "/#reviews" },
+                { text: "How it works", href: "#how-it-works" },
                 { text: "Pricing", href: "/#pricing" },
                 { text: "iOS app", href: "#" },
               ].map((l) => (
@@ -73,14 +72,8 @@ export default function FooterSection({ glow, className }: FooterProps) {
             {/* Company */}
             <FooterColumn>
               <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground pt-1">Company</h3>
-              {[
-                { text: "Blog", href: "/blogs" },
-                { text: "Careers", href: "/careers" },
-                { text: "Press kit", href: "/press" },
-                { text: "Contact", href: "/contact" },
-              ].map((l) => (
-                <a key={l.text} href={l.href} className="text-muted-foreground text-sm hover:text-foreground transition-colors">{l.text}</a>
-              ))}
+              <a href="/blogs" className="text-muted-foreground text-sm hover:text-foreground transition-colors">Blog</a>
+              <a href="mailto:support@skripe.com" className="text-muted-foreground text-sm hover:text-foreground transition-colors">Contact</a>
             </FooterColumn>
 
             {/* Legal */}

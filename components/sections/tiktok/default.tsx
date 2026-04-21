@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Section } from "../../ui/section";
 
 const REVIEWS = [
@@ -65,13 +65,14 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
         {/* Notch */}
         <div style={{ position: "absolute", top: "8px", left: "50%", transform: "translateX(-50%)", width: "60px", height: "16px", background: "#000", borderRadius: "999px", zIndex: 4 }} />
 
-        {/* Video */}
+        {/* Video — preload="metadata" loads first frame for thumbnail, not full video */}
         <video
           ref={videoRef}
           src={`https://bycatassets.com/${review.video}.mp4`}
           muted
           loop
           playsInline
+          preload="metadata"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
         />
 
@@ -104,14 +105,12 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
             title={muted ? "Unmute" : "Mute"}
           >
             {muted ? (
-              /* Speaker with X */
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                 <line x1="23" y1="9" x2="17" y2="15" />
                 <line x1="17" y1="9" x2="23" y2="15" />
               </svg>
             ) : (
-              /* Speaker with waves */
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                 <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
@@ -127,6 +126,19 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
 
 export default function TikTokCarousel() {
   const items = [...REVIEWS, ...REVIEWS];
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <Section>
@@ -145,27 +157,31 @@ export default function TikTokCarousel() {
       </div>
 
       <div
+        ref={sectionRef}
         style={{
           position: "relative",
           overflow: "hidden",
           maskImage: "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+          minHeight: "420px",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            gap: "18px",
-            width: "max-content",
-            animation: "uni-scroll 40s linear infinite",
-            padding: "20px 9px",
-            alignItems: "center",
-          }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.animationPlayState = "paused"; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.animationPlayState = "running"; }}
-        >
-          {items.map((r, i) => <TikTokPhone key={i} review={r} />)}
-        </div>
+        {isVisible && (
+          <div
+            style={{
+              display: "flex",
+              gap: "18px",
+              width: "max-content",
+              animation: "uni-scroll 40s linear infinite",
+              padding: "20px 9px",
+              alignItems: "center",
+            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.animationPlayState = "paused"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.animationPlayState = "running"; }}
+          >
+            {items.map((r, i) => <TikTokPhone key={i} review={r} />)}
+          </div>
+        )}
       </div>
     </Section>
   );

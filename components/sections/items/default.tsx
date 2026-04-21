@@ -17,8 +17,7 @@ const STEPS = [
         ].map((f) => (
           <div
             key={f.label}
-            className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs text-muted-foreground"
-            style={{ border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)" }}
+            className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs text-muted-foreground border border-border bg-muted/30"
           >
             {f.icon}
             {f.label}
@@ -33,7 +32,7 @@ const STEPS = [
     description:
       "Real synthesis, not copy-paste. You get a structured summary, a searchable transcript, flashcards, and three difficulty tiers of quiz.",
     visual: (
-      <div className="flex flex-col items-center gap-2 w-4/5 p-3 rounded-xl" style={{ border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.03)" }}>
+      <div className="flex flex-col items-center gap-2 w-4/5 p-3 rounded-xl border border-border bg-muted/20">
         <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
           <div
             className="h-full rounded-full bg-gradient-to-r from-pink-500 to-orange-400"
@@ -54,12 +53,18 @@ const STEPS = [
         <div
           className="size-11 rounded-full flex-shrink-0"
           style={{
-            background:
-              "radial-gradient(circle, rgba(236,72,153,0.6) 0%, rgba(236,72,153,0) 70%)",
+            background: "radial-gradient(circle, rgba(236,72,153,0.6) 0%, rgba(236,72,153,0) 70%)",
             boxShadow: "0 0 18px rgba(236,72,153,0.4)",
           }}
         />
-        <p className="text-sm text-foreground">Live AI session in 2h</p>
+        <div className="flex flex-col gap-1">
+          {/* LIVE badge — same style as hero phone */}
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "2px 8px 2px 7px", borderRadius: "999px", background: "#dc2626", color: "#fff", fontSize: "9px", fontWeight: 700, width: "fit-content" }}>
+            <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#fff", flexShrink: 0, animation: "live-pulse 1.4s ease-in-out infinite" }} />
+            LIVE
+          </span>
+          <p className="text-sm text-foreground">AI session in 2h</p>
+        </div>
       </div>
     ),
   },
@@ -67,7 +72,7 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <Section>
+    <Section id="how-it-works">
       <div className="max-w-container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-14">
@@ -87,24 +92,14 @@ export default function HowItWorks() {
           {STEPS.map((step) => (
             <div
               key={step.num}
-              className="flex flex-col gap-4 rounded-2xl p-6 transition-colors"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.07)",
-              }}
+              className="flex flex-col gap-4 rounded-2xl p-6 transition-colors bg-muted/30 border border-border"
             >
               <div className="text-xs font-semibold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {step.num}
               </div>
               <h3 className="text-lg font-semibold tracking-tight">{step.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed flex-1">{step.description}</p>
-              <div
-                className="h-[130px] rounded-xl flex items-center justify-center overflow-hidden"
-                style={{
-                  background: "rgba(13,11,20,0.9)",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                }}
-              >
+              <div className="h-[130px] rounded-xl flex items-center justify-center overflow-hidden bg-muted/40 border border-border dark:bg-[rgba(13,11,20,0.9)] dark:border-[rgba(255,255,255,0.07)]">
                 {step.visual}
               </div>
             </div>

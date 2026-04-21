@@ -399,7 +399,7 @@ export default function Hero({
     <a href="https://apps.apple.com/us/app/leitner-ai-note-quiz-alerts/id6747087851" target="_blank" rel="noopener noreferrer" className="animate-appear">
       <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted/60 px-1 py-1 transition-colors hover:border-black/20 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20">
         <span className="inline-flex h-full w-full items-center justify-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium">
-          <span className="rounded-full px-2 py-0.5 text-[10px] font-bold bg-pink-500 text-white dark:bg-zinc-700 dark:text-zinc-100">New</span>
+          <span className="rounded-full px-2 py-0.5 text-[10px] font-medium bg-foreground text-background dark:bg-zinc-700 dark:text-zinc-100">New</span>
           <span className="flex items-center gap-1 text-muted-foreground">
             Bycat AI mobile app is out!
             <ArrowRightIcon className="size-3" />
@@ -437,7 +437,7 @@ export default function Hero({
             </p>
 
             <div className="animate-appear relative z-10 flex flex-col sm:flex-row gap-3 opacity-0 delay-300 w-full sm:w-auto">
-              <Button size="lg" variant="default" className="h-12 px-6 text-sm font-medium" asChild>
+              <Button size="lg" variant="default" className="h-12 px-6 text-sm font-medium from-white! to-white! text-zinc-900! shadow-sm hover:from-zinc-50! hover:to-zinc-50! dark:from-primary/100! dark:to-primary/70! dark:text-primary-foreground! dark:hover:from-primary/80! dark:hover:to-primary/70!" asChild>
                 <a href={siteConfig.getStartedUrl}>
                   <Globe className="mr-2 size-4" /> Web platform
                 </a>
@@ -462,7 +462,7 @@ export default function Hero({
                 <span className="text-sm text-foreground leading-snug">
                   Used by <strong>20,000+ students</strong> at Stanford, UCL, NYU &amp; 300 more.
                 </span>
-                <span className="text-xs text-muted-foreground mt-0.5">Free for the first week — no card, no catch.</span>
+                <span className="text-xs text-muted-foreground mt-0.5">Free for the first week — zero risk, pure upside.</span>
               </div>
             </div>
           </div>
@@ -484,7 +484,7 @@ export default function Hero({
               className="text-foreground font-semibold"
               style={{ fontSize: "clamp(28px,4.2vw,54px)", letterSpacing: "-0.03em", lineHeight: 1.05 }}
             >
-              See it turn a 3-hour lecture into a studied topic.
+              See everything click into place.
             </h2>
           </div>
           <div className="relative z-10 animate-appear opacity-0 delay-700">
