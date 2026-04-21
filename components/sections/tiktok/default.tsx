@@ -17,33 +17,34 @@ const REVIEWS = [
 function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
-  const [hovered, setHovered] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const lastTouchTime = useRef(0);
 
-  const handleEnter = () => {
-    setHovered(true);
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {});
-    }
+  const play = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    setMuted(true);
+    v.play().catch(() => {});
   };
 
-  const handleLeave = () => {
-    setHovered(false);
+  const stop = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.pause();
+    v.currentTime = 0;
+    v.muted = true;
     setMuted(true);
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.muted = true;
-      videoRef.current.currentTime = 0;
-    }
   };
 
   const toggleMute = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!videoRef.current) return;
+    const v = videoRef.current;
+    if (!v) return;
     const next = !muted;
     setMuted(next);
-    videoRef.current.muted = next;
-    if (!next) videoRef.current.play().catch(() => {});
+    v.muted = next;
+    if (!next) v.play().catch(() => {});
   };
 
   return (
@@ -59,15 +60,35 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
         boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
         position: "relative",
         transition: "transform 0.3s",
+        cursor: "pointer",
       }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"; handleEnter(); }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = ""; handleLeave(); }}
+      onMouseEnter={(e) => {
+        // Ignore synthetic mouse events fired right after touch
+        if (lastTouchTime.current && Date.now() - lastTouchTime.current < 800) return;
+        (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
+        play();
+      }}
+      onMouseLeave={(e) => {
+        if (lastTouchTime.current && Date.now() - lastTouchTime.current < 800) return;
+        (e.currentTarget as HTMLDivElement).style.transform = "";
+        stop();
+      }}
+      onTouchStart={() => { lastTouchTime.current = Date.now(); }}
+      onClick={() => {
+        // Only handle clicks from touch (desktop uses hover)
+        if (Date.now() - lastTouchTime.current > 800) return;
+        if (isPlaying) stop(); else play();
+      }}
     >
-      <div style={{ width: "100%", height: "100%", background: "#000", borderRadius: "28px", overflow: "hidden", position: "relative" }}>
+      {/*
+        isolation: "isolate" creates a new stacking context so Safari's native
+        video compositing layer cannot bleed above our z-indexed overlays.
+      */}
+      <div style={{ width: "100%", height: "100%", background: "#000", borderRadius: "28px", overflow: "hidden", position: "relative", isolation: "isolate" }}>
         {/* Notch */}
         <div style={{ position: "absolute", top: "8px", left: "50%", transform: "translateX(-50%)", width: "60px", height: "16px", background: "#000", borderRadius: "999px", zIndex: 4 }} />
 
-        {/* Video — preload="metadata" loads first frame for thumbnail, not full video */}
+        {/* Video */}
         <video
           ref={videoRef}
           src={`https://bycatassets.com/${review.video}.mp4#t=0.001`}
@@ -75,6 +96,9 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
           loop
           playsInline
           preload="metadata"
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onEnded={() => setIsPlaying(false)}
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
         />
 
@@ -83,46 +107,57 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
 
         {/* Center: quote */}
         {SHOW_TITLES && (
-          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", textAlign: "center", color: "rgba(255,255,255,0.95)", zIndex: 2, padding: "0 20px" }}>
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%) translateZ(0)", textAlign: "center", color: "rgba(255,255,255,0.95)", zIndex: 2, padding: "0 20px" }}>
             <div style={{ fontSize: "17px", lineHeight: 1.25, fontWeight: 700, letterSpacing: "-0.01em" }}>"{review.quote}"</div>
           </div>
         )}
 
-        {/* Play icon + view count */}
-        <div style={{ position: "absolute", left: "12px", bottom: "14px", zIndex: 3, display: "flex", alignItems: "center", gap: "5px" }}>
+        {/*
+          View count — always in DOM.
+          translateZ(0) forces a GPU compositing layer above the video on Safari,
+          preventing the video from covering it when it plays.
+        */}
+        <div style={{ position: "absolute", left: "12px", bottom: "14px", zIndex: 3, display: "flex", alignItems: "center", gap: "5px", transform: "translateZ(0)" }}>
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <path d="M2.5 1.5L11.5 6.5L2.5 11.5V1.5Z" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
           </svg>
           <span style={{ color: "#fff", fontSize: "12px", fontWeight: 600, textShadow: "0 1px 4px rgba(0,0,0,0.9)" }}>{review.views}</span>
         </div>
 
-        {/* Sound toggle — visible on hover */}
-        {hovered && (
-          <button
-            onClick={toggleMute}
-            style={{
-              position: "absolute", right: "10px", bottom: "14px", zIndex: 5,
-              background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "50%",
-              width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "pointer", color: "#fff",
-            }}
-            title={muted ? "Unmute" : "Mute"}
-          >
-            {muted ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                <line x1="23" y1="9" x2="17" y2="15" />
-                <line x1="17" y1="9" x2="23" y2="15" />
-              </svg>
-            ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-              </svg>
-            )}
-          </button>
-        )}
+        {/*
+          Mute button — always in DOM, shown when playing.
+          Never conditionally rendered: React removing/adding it caused Safari
+          to lose the stacking context and drop the element behind the video.
+          translateZ(0) keeps it on its own GPU layer above the video.
+        */}
+        <button
+          onClick={toggleMute}
+          style={{
+            position: "absolute", right: "10px", bottom: "14px", zIndex: 5,
+            background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "50%",
+            width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center",
+            cursor: "pointer", color: "#fff",
+            transform: "translateZ(0)",
+            opacity: isPlaying ? 1 : 0,
+            pointerEvents: isPlaying ? "auto" : "none",
+            transition: "opacity 0.2s",
+          }}
+          title={muted ? "Unmute" : "Mute"}
+        >
+          {muted ? (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <line x1="23" y1="9" x2="17" y2="15" />
+              <line x1="17" y1="9" x2="23" y2="15" />
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+            </svg>
+          )}
+        </button>
       </div>
     </div>
   );
