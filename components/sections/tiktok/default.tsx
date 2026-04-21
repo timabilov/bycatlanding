@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Section } from "../../ui/section";
 
+const SHOW_TITLES = false;
+
 const REVIEWS = [
   { quote: "It nags in a good way.",   views: "33.1K",  video: "ugcbycataisippingondesk" },
   { quote: "2am therapy sessions.",    views: "91.7K",  video: "ugcsimplebycatdeskroom" },
@@ -80,9 +82,11 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6) 25%, rgba(0,0,0,0.05) 55%, rgba(0,0,0,0.25) 100%)", zIndex: 1 }} />
 
         {/* Center: quote */}
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", textAlign: "center", color: "rgba(255,255,255,0.95)", zIndex: 2, padding: "0 20px" }}>
-          <div style={{ fontSize: "17px", lineHeight: 1.25, fontWeight: 700, letterSpacing: "-0.01em" }}>"{review.quote}"</div>
-        </div>
+        {SHOW_TITLES && (
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", textAlign: "center", color: "rgba(255,255,255,0.95)", zIndex: 2, padding: "0 20px" }}>
+            <div style={{ fontSize: "17px", lineHeight: 1.25, fontWeight: 700, letterSpacing: "-0.01em" }}>"{review.quote}"</div>
+          </div>
+        )}
 
         {/* Play icon + view count */}
         <div style={{ position: "absolute", left: "12px", bottom: "14px", zIndex: 3, display: "flex", alignItems: "center", gap: "5px" }}>
@@ -128,6 +132,9 @@ export default function TikTokCarousel() {
   const items = [...REVIEWS, ...REVIEWS];
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastTouchTime = useRef(0);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -139,6 +146,18 @@ export default function TikTokCarousel() {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  const pauseStrip = () => {
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    if (stripRef.current) stripRef.current.style.animationPlayState = "paused";
+  };
+
+  const resumeStrip = (delay = 0) => {
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => {
+      if (stripRef.current) stripRef.current.style.animationPlayState = "running";
+    }, delay);
+  };
 
   return (
     <Section>
@@ -168,6 +187,7 @@ export default function TikTokCarousel() {
       >
         {isVisible && (
           <div
+            ref={stripRef}
             style={{
               display: "flex",
               gap: "18px",
@@ -176,8 +196,24 @@ export default function TikTokCarousel() {
               padding: "20px 9px",
               alignItems: "center",
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.animationPlayState = "paused"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.animationPlayState = "running"; }}
+            // Mouse: hover pauses, leave resumes immediately
+            onMouseEnter={() => {
+              if (Date.now() - lastTouchTime.current < 800) return;
+              pauseStrip();
+            }}
+            onMouseLeave={() => {
+              if (Date.now() - lastTouchTime.current < 800) return;
+              resumeStrip(0);
+            }}
+            // Touch: tap pauses, finger-up auto-resumes after 3s
+            onTouchStart={() => {
+              lastTouchTime.current = Date.now();
+              pauseStrip();
+            }}
+            onTouchEnd={() => {
+              lastTouchTime.current = Date.now();
+              resumeStrip(3000);
+            }}
           >
             {items.map((r, i) => <TikTokPhone key={i} review={r} />)}
           </div>
