@@ -73,8 +73,8 @@ export default function Banner({ promoData }: BannerProps) {
           {/* Separator — desktop only */}
           <span className="hidden sm:block h-3.5 w-px bg-white/20" />
 
-          {/* Countdown — desktop only */}
-          <span className="hidden sm:inline-flex items-center gap-1.5 text-muted-foreground">
+          {/* Countdown */}
+          <span className="inline-flex items-center gap-1.5 text-muted-foreground">
             <Clock className="size-3 flex-shrink-0" />
             <span className="font-mono text-xs tabular-nums text-foreground font-medium">
               {mounted

@@ -70,7 +70,7 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
         {/* Video — preload="metadata" loads first frame for thumbnail, not full video */}
         <video
           ref={videoRef}
-          src={`https://bycatassets.com/${review.video}.mp4`}
+          src={`https://bycatassets.com/${review.video}.mp4#t=0.001`}
           muted
           loop
           playsInline
