@@ -14,15 +14,37 @@ const REVIEWS = [
   { quote: "Dropped the book, kept the grade.", views: "44.9K", video: "droppingabookbycatai" },
 ];
 
-function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
+interface TikTokPhoneProps {
+  review: typeof REVIEWS[number];
+  phoneId: string;
+  isActive: boolean;
+  onActivate: (id: string) => void;
+  onDeactivate: () => void;
+}
+
+function TikTokPhone({ review, phoneId, isActive, onActivate, onDeactivate }: TikTokPhoneProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const lastTouchTime = useRef(0);
 
+  // Stop this video whenever another becomes active
+  useEffect(() => {
+    if (!isActive) {
+      const v = videoRef.current;
+      if (v && !v.paused) {
+        v.pause();
+        v.currentTime = 0;
+        v.muted = true;
+        setMuted(true);
+      }
+    }
+  }, [isActive]);
+
   const play = () => {
     const v = videoRef.current;
     if (!v) return;
+    onActivate(phoneId);
     v.muted = true;
     setMuted(true);
     v.play().catch(() => {});
@@ -35,6 +57,7 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
     v.currentTime = 0;
     v.muted = true;
     setMuted(true);
+    onDeactivate();
   };
 
   const toggleMute = (e: React.MouseEvent) => {
@@ -63,7 +86,6 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
         cursor: "pointer",
       }}
       onMouseEnter={(e) => {
-        // Ignore synthetic mouse events fired right after touch
         if (lastTouchTime.current && Date.now() - lastTouchTime.current < 800) return;
         (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
         play();
@@ -75,15 +97,10 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
       }}
       onTouchStart={() => { lastTouchTime.current = Date.now(); }}
       onClick={() => {
-        // Only handle clicks from touch (desktop uses hover)
         if (Date.now() - lastTouchTime.current > 800) return;
         if (isPlaying) stop(); else play();
       }}
     >
-      {/*
-        isolation: "isolate" creates a new stacking context so Safari's native
-        video compositing layer cannot bleed above our z-indexed overlays.
-      */}
       <div style={{ width: "100%", height: "100%", background: "#000", borderRadius: "28px", overflow: "hidden", position: "relative", isolation: "isolate" }}>
         {/* Notch */}
         <div style={{ position: "absolute", top: "8px", left: "50%", transform: "translateX(-50%)", width: "60px", height: "16px", background: "#000", borderRadius: "999px", zIndex: 4 }} />
@@ -105,18 +122,12 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
         {/* Dark overlay */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6) 25%, rgba(0,0,0,0.05) 55%, rgba(0,0,0,0.25) 100%)", zIndex: 1 }} />
 
-        {/* Center: quote */}
         {SHOW_TITLES && (
           <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%) translateZ(0)", textAlign: "center", color: "rgba(255,255,255,0.95)", zIndex: 2, padding: "0 20px" }}>
             <div style={{ fontSize: "17px", lineHeight: 1.25, fontWeight: 700, letterSpacing: "-0.01em" }}>"{review.quote}"</div>
           </div>
         )}
 
-        {/*
-          View count — always in DOM.
-          translateZ(0) forces a GPU compositing layer above the video on Safari,
-          preventing the video from covering it when it plays.
-        */}
         <div style={{ position: "absolute", left: "12px", bottom: "14px", zIndex: 3, display: "flex", alignItems: "center", gap: "5px", transform: "translateZ(0)" }}>
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <path d="M2.5 1.5L11.5 6.5L2.5 11.5V1.5Z" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
@@ -124,12 +135,6 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
           <span style={{ color: "#fff", fontSize: "12px", fontWeight: 600, textShadow: "0 1px 4px rgba(0,0,0,0.9)" }}>{review.views}</span>
         </div>
 
-        {/*
-          Mute button — always in DOM, shown when playing.
-          Never conditionally rendered: React removing/adding it caused Safari
-          to lose the stacking context and drop the element behind the video.
-          translateZ(0) keeps it on its own GPU layer above the video.
-        */}
         <button
           onClick={toggleMute}
           style={{
@@ -164,8 +169,9 @@ function TikTokPhone({ review }: { review: typeof REVIEWS[number] }) {
 }
 
 export default function TikTokCarousel() {
-  const items = [...REVIEWS, ...REVIEWS];
+  const desktopItems = [...REVIEWS, ...REVIEWS];
   const [isVisible, setIsVisible] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLDivElement>(null);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -210,8 +216,48 @@ export default function TikTokCarousel() {
         </div>
       </div>
 
+      <style>{`
+        .tiktok-mobile  { display: flex; }
+        .tiktok-desktop { display: none; }
+        @media (min-width: 768px) {
+          .tiktok-mobile  { display: none !important; }
+          .tiktok-desktop { display: block; }
+        }
+      `}</style>
+
+      {/* ── Mobile: swipeable snap scroll ── */}
+      <div
+        className="tiktok-mobile"
+        style={{
+          overflowX: "scroll",
+          overflowY: "hidden",
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch" as any,
+          display: "flex",
+          gap: "16px",
+          paddingInline: "calc(50vw - 110px)",
+          paddingBlock: "20px",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        } as React.CSSProperties}
+      >
+        {REVIEWS.map((r, i) => (
+          <div key={i} style={{ scrollSnapAlign: "center", flexShrink: 0 }}>
+            <TikTokPhone
+              review={r}
+              phoneId={`m-${i}`}
+              isActive={activeId === `m-${i}`}
+              onActivate={setActiveId}
+              onDeactivate={() => setActiveId(null)}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Desktop: auto-scroll animation strip ── */}
       <div
         ref={sectionRef}
+        className="tiktok-desktop"
         style={{
           position: "relative",
           overflow: "hidden",
@@ -231,7 +277,6 @@ export default function TikTokCarousel() {
               padding: "20px 9px",
               alignItems: "center",
             }}
-            // Mouse: hover pauses, leave resumes immediately
             onMouseEnter={() => {
               if (Date.now() - lastTouchTime.current < 800) return;
               pauseStrip();
@@ -240,7 +285,6 @@ export default function TikTokCarousel() {
               if (Date.now() - lastTouchTime.current < 800) return;
               resumeStrip(0);
             }}
-            // Touch: tap pauses, finger-up auto-resumes after 3s
             onTouchStart={() => {
               lastTouchTime.current = Date.now();
               pauseStrip();
@@ -250,7 +294,16 @@ export default function TikTokCarousel() {
               resumeStrip(3000);
             }}
           >
-            {items.map((r, i) => <TikTokPhone key={i} review={r} />)}
+            {desktopItems.map((r, i) => (
+              <TikTokPhone
+                key={i}
+                review={r}
+                phoneId={`d-${i}`}
+                isActive={activeId === `d-${i}`}
+                onActivate={setActiveId}
+                onDeactivate={() => setActiveId(null)}
+              />
+            ))}
           </div>
         )}
       </div>
