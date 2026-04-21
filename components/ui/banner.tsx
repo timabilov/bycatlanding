@@ -44,17 +44,16 @@ export default function Banner({ promoData }: BannerProps) {
       >
         {/* Inner pill */}
         <span
-          className="relative inline-flex h-full w-full items-center rounded-full transition-all"
+          className="relative inline-flex h-full w-full items-center rounded-full transition-all gap-2 sm:gap-3"
           style={{
             background: "rgba(236,72,153,0.08)",
             border: "1px solid rgba(236,72,153,0.3)",
-            padding: "6px 14px 6px 6px",
-            gap: "12px",
+            padding: "6px 10px 6px 6px",
           }}
         >
           {/* SALE tag */}
           <span
-            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold text-white"
+            className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] font-bold text-white"
             style={{
               background: "#ec4899",
               letterSpacing: "0.02em",
@@ -66,7 +65,7 @@ export default function Banner({ promoData }: BannerProps) {
 
           {/* Text — shortened on mobile */}
           <span className="text-sm text-foreground whitespace-nowrap">
-            <span className="sm:hidden">50% off Annual</span>
+            <span className="sm:hidden">50% off</span>
             <span className="hidden sm:inline">50% off Annual plans</span>
           </span>
 
@@ -74,8 +73,8 @@ export default function Banner({ promoData }: BannerProps) {
           <span className="hidden sm:block h-3.5 w-px bg-white/20" />
 
           {/* Countdown */}
-          <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-            <Clock className="size-3 flex-shrink-0" />
+          <span className="inline-flex items-center gap-1 sm:gap-1.5 text-muted-foreground">
+            <Clock className="size-3 flex-shrink-0 hidden sm:block" />
             <span className="font-mono text-xs tabular-nums text-foreground font-medium">
               {mounted ? (
                 <>
