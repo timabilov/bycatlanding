@@ -310,7 +310,7 @@ function HeroPhoneVisual() {
               <span style={{ color: "#a78bfa", fontSize: "10px", fontWeight: 600 }}>Practice · Cell Biology</span>
               <span style={{ marginLeft: "auto", color: "#ef4444", fontSize: "13px", fontWeight: 600 }}>×</span>
             </div>
-            <div style={{ color: "rgba(255,255,255,0.55)", fontSize: "9px", margin: "4px 0 8px" }}>Tuesday drill — picked up where you left off.</div>
+            <div style={{ color: "rgba(255,255,255,0.55)", fontSize: "9px", margin: "4px 0 8px" }}>Joined live · picked up right where you left off.</div>
             {/* Chat log */}
             <div style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column", gap: "4px", lineHeight: 1.35 }}>
               {turns.map((turn, i) => <ChatTurnEl key={i} turn={turn} />)}
@@ -340,7 +340,7 @@ function HeroPhoneVisual() {
       </div>
 
       {/* Float chip 1: YouTube */}
-      <div style={chipStyle({ top: "48%", left: "-4%", animationDelay: "0s" })}>
+      <div style={chipStyle({ top: "58%", left: "-4%", animationDelay: "0s" })}>
         {chipIcon(<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="m17 10 4-2v8l-4-2z"/></svg>)}
         YouTube → Notes
       </div>
@@ -349,6 +349,27 @@ function HeroPhoneVisual() {
       <div style={chipStyle({ top: "8%", right: "1%", animationDelay: "-2s" })}>
         {chipIcon(<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>)}
         PDF parsed · 12 pages
+      </div>
+
+      {/* Float chip 3: Live lecture capture */}
+      <div style={chipStyle({ top: "32%", right: "-7%", animationDelay: "-1s" })}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          {chipIcon(
+            /* waveform bars — modern audio feel */
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="1"  y="9"  width="3" height="6"  rx="1.5"/>
+              <rect x="6"  y="5"  width="3" height="14" rx="1.5"/>
+              <rect x="11" y="2"  width="3" height="20" rx="1.5"/>
+              <rect x="16" y="5"  width="3" height="14" rx="1.5"/>
+              <rect x="21" y="9"  width="3" height="6"  rx="1.5"/>
+            </svg>
+          )}
+          <span style={{ fontWeight: 600 }}>Capture live</span>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "3px", padding: "1px 6px", borderRadius: "999px", background: "rgba(239,68,68,0.12)", color: "#f87171", fontSize: "10px", fontWeight: 600 }}>
+            <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#ef4444", animation: "live-pulse 1.4s ease-in-out infinite" }} />
+            REC
+          </span>
+        </div>
       </div>
 
       {/* Alert card */}
