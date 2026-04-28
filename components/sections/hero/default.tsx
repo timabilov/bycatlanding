@@ -158,18 +158,24 @@ const CHAT_SCRIPT = [
   { who: "user"     as const, text: "uhh… signaling?" },
   { who: "ai-label" as const, text: "Bycat" },
   { who: "ai"       as const, text: "Close. From your lecture: calcium buffering and apoptosis. Want me to drill this tomorrow at 8pm?" },
+  { who: "user"     as const, text: "yes — cell cycle. no mercy" },
 ];
 type Turn = typeof CHAT_SCRIPT[number];
 
 function useChatFlow() {
-  const [step, setStep]   = useState(0);
-  const [typed, setTyped] = useState("");
-  const [turns, setTurns] = useState<Turn[]>([]);
+  const [step, setStep]         = useState(0);
+  const [typed, setTyped]       = useState("");
+  const [turns, setTurns]       = useState<Turn[]>([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertKey, setAlertKey]  = useState(0);
 
   useEffect(() => {
     if (step >= CHAT_SCRIPT.length) {
-      const t = setTimeout(() => { setTurns([]); setStep(0); setTyped(""); }, 4500);
-      return () => clearTimeout(t);
+      setShowAlert(true);
+      setAlertKey(k => k + 1);
+      const hideTimer  = setTimeout(() => setShowAlert(false), 4000);
+      const resetTimer = setTimeout(() => { setTurns([]); setStep(0); setTyped(""); }, 4500);
+      return () => { clearTimeout(hideTimer); clearTimeout(resetTimer); };
     }
     const cur = CHAT_SCRIPT[step];
     if (cur.who === "ai-label" || cur.who === "ai-sub") {
@@ -195,7 +201,7 @@ function useChatFlow() {
     return () => clearInterval(iv);
   }, [step]);
 
-  return { turns, typed, current: CHAT_SCRIPT[step] };
+  return { turns, typed, current: CHAT_SCRIPT[step], showAlert, alertKey };
 }
 
 const Caret = () => (
@@ -225,7 +231,7 @@ function HeroPhoneVisual() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
-  const { turns, typed, current } = useChatFlow();
+  const { turns, typed, current, showAlert, alertKey } = useChatFlow();
   const aiSpeaking = current && (current.who === "ai" || current.who === "ai-label" || current.who === "ai-sub");
 
   const isLight = mounted && resolvedTheme === "light";
@@ -312,8 +318,8 @@ function HeroPhoneVisual() {
             </div>
             {/* Footer with wavy orb */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", paddingBottom: "4px" }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "3px 9px", borderRadius: "999px", background: "rgba(220,38,38,0.12)", border: "1px solid rgba(220,38,38,0.25)", color: "#f87171", fontSize: "8px", fontWeight: 500 }}>
-                🎙 Mic paused — Bycat is speaking
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "3px 9px", borderRadius: "999px", background: aiSpeaking ? "rgba(220,38,38,0.12)" : "rgba(34,197,94,0.12)", border: `1px solid ${aiSpeaking ? "rgba(220,38,38,0.25)" : "rgba(34,197,94,0.25)"}`, color: aiSpeaking ? "#f87171" : "#4ade80", fontSize: "8px", fontWeight: 500 }}>
+                {aiSpeaking ? "🎙 Mic paused — Bycat is speaking" : "🎙 Listening..."}
               </span>
               <div style={{ display: "flex", justifyContent: "center", marginTop: "2px" }}>
                 <WavyOrb size={62} speaking={!!aiSpeaking} />
@@ -334,32 +340,30 @@ function HeroPhoneVisual() {
       </div>
 
       {/* Float chip 1: YouTube */}
-      <div style={chipStyle({ top: "16%", left: "-4%", animationDelay: "0s" })}>
+      <div style={chipStyle({ top: "48%", left: "-4%", animationDelay: "0s" })}>
         {chipIcon(<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="m17 10 4-2v8l-4-2z"/></svg>)}
         YouTube → Notes
       </div>
 
       {/* Float chip 2: PDF */}
-      <div style={chipStyle({ top: "44%", right: "-6%", animationDelay: "-2s" })}>
+      <div style={chipStyle({ top: "8%", right: "1%", animationDelay: "-2s" })}>
         {chipIcon(<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>)}
         PDF parsed · 12 pages
       </div>
 
-      {/* Float chip 3: flashcards */}
-      <div style={chipStyle({ top: "6%", right: "8%", animationDelay: "-1s" })}>
-        {chipIcon(<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v5M12 17v5M2 12h5M17 12h5M5.6 5.6l3.5 3.5M14.9 14.9l3.5 3.5M5.6 18.4l3.5-3.5M14.9 9.1l3.5-3.5"/></svg>)}
-        47 flashcards ready
-      </div>
-
       {/* Alert card */}
-      <div style={{
-        position: "absolute", bottom: "4%", right: "-6%", width: "190px",
-        padding: "12px 14px", borderRadius: "14px",
-        background: bubbleBg, border: `1px solid ${chipBorder}`,
-        backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-        boxShadow: "0 20px 40px rgba(0,0,0,0.45)", zIndex: 3,
-        animation: "float-y 7s ease-in-out infinite",
-      }}>
+      <div style={{ position: "absolute", bottom: "4%", right: "-6%", zIndex: 3, animation: "float-y 7s ease-in-out infinite" }}>
+        <div key={alertKey} style={{
+          width: "190px",
+          padding: "12px 14px", borderRadius: "14px",
+          background: bubbleBg, border: `1px solid ${chipBorder}`,
+          backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.45)",
+          animation: showAlert
+            ? "pop-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards"
+            : "fade-out-card 0.45s ease forwards",
+          pointerEvents: showAlert ? "auto" : "none",
+        }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
           <span style={{ position: "relative", width: "22px", height: "22px", borderRadius: "7px", background: "rgba(236,72,153,0.14)", color: "#f472b6", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
@@ -370,7 +374,7 @@ function HeroPhoneVisual() {
         </div>
         <div style={{ fontSize: "11px", color: bubbleSub, lineHeight: 1.45, marginBottom: "10px" }}>
           <span style={{ fontSize: "9.5px", fontWeight: 700, color: "#f472b6", marginRight: "4px" }}>You:</span>
-          "Quiz me on <strong style={{ color: bubbleText }}>cell cycle</strong> until I stop missing it."
+          "yes — <strong style={{ color: bubbleText }}>cell cycle</strong>. no mercy"
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "2px 8px", borderRadius: "999px", background: "rgba(34,197,94,0.12)", color: "#22c55e", fontSize: "9.5px", fontWeight: 600 }}>
@@ -378,6 +382,7 @@ function HeroPhoneVisual() {
             On
           </span>
           <span style={{ fontSize: "10px", color: bubbleSub }}>Pings you when ready</span>
+        </div>
         </div>
       </div>
     </div>

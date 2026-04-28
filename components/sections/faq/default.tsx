@@ -29,7 +29,7 @@ export default function FAQ({
       answer: (
         <>
           <p className="text-muted-foreground mb-4 max-w-[580px]">
-            <strong>Yes!</strong> Bycat AI offers a generous free tier. You can use it to process files, generate quizzes, and access basic summaries every day without paying.
+            <strong>Yes!</strong> Start free — create 2 notes and try live sessions to see what Bycat actually feels like in action. Honestly, that&apos;s usually the moment people get it. Upgrade when you want more.
           </p>
           <p className="text-muted-foreground mb-4 max-w-[580px]">
             For unlimited usage, longer video processing, and advanced AI models, we offer affordable Pro plans. Check out our{" "}
@@ -89,7 +89,7 @@ export default function FAQ({
       question: "How accurate are the notes and summaries?",
       answer: (
         <p className="text-muted-foreground mb-4 max-w-[600px]">
-          We utilize state-of-the-art AI models (similar to GPT-4o and Claude 3.5) to ensure high accuracy and context awareness. However, we always recommend reviewing the generated notes—which you can easily edit and refine within our platform.
+          We use state-of-the-art AI models to keep notes accurate and context-aware. If something looks off or you want to dig deeper, just ask in a live session — it&apos;ll clarify on the spot.
         </p>
       ),
     },
