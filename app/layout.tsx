@@ -2,6 +2,7 @@ import "@/app/globals.css";
 
 import type { Metadata } from "next";
 
+import ApplovinTracker from "@/components/applovin-tracker";
 import { ThemeProvider } from "@/components/contexts/theme-provider";
 import { inter } from "@/lib/fonts";
 
@@ -110,9 +111,21 @@ export default function RootLayout({
             }),
           }}
         />
+        {/* AppLovin Axon Pixel */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              var AXON_EVENT_KEY="d9f7f41b-e0d3-4800-a82b-e06bce8a25bc";
+              !function(e,r){var t=["https://s.axon.ai/pixel.js","https://res4.applovin.com/p/l/loader.iife.js"];if(!e.axon){var a=e.axon=function(){a.performOperation?a.performOperation.apply(a,arguments):a.operationQueue.push(arguments)};a.operationQueue=[],a.ts=Date.now(),a.eventKey=AXON_EVENT_KEY;for(var n=r.getElementsByTagName("script")[0],o=0;o<t.length;o++){var i=r.createElement("script");i.async=!0;i.src=t[o];n.parentNode.insertBefore(i,n)}}}(window,document);
+              axon("init");
+              axon("track","page_view");
+            `,
+          }}
+        />
       </head>
       <body className={`${inter.className} bg-background antialiased`}>
         <ThemeProvider>{children}</ThemeProvider>
+        <ApplovinTracker />
       </body>
     </html>
   );
