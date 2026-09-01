@@ -20,7 +20,7 @@ export const PRICING_TIERS_CLAIM =[
     defaultPrice: 5.99,
     original: 0,
     description: "Perfect for short-term projects.",
-    discountId: "dsc_01kn732qx3f2tk2pdpvjj2dav5",
+    // discountId: "dsc_01kn732qx3f2tk2pdpvjj2dav5",
     priceId: "pri_01kn72e7s269tnzcakpvf9fvs5", 
     features:['Unlimited notes', "2x Daily Live AI Tutoring", 'AI Chat', 'Unlimited quizzes & flashcards', 'Quiz notifications'],
   },
@@ -198,7 +198,7 @@ export default function Pricing({ banner }: { banner?: any }) {
             const finalOriginal = liveData ? liveData.current : fallbackOriginal;
             
             const finalDefault = liveData && liveData.original ? liveData.original : tier.defaultPrice;
-
+            console.log( tier.defaultPrice, finalOriginal);
             return (
               <div
                 key={tier.id}
@@ -236,9 +236,9 @@ export default function Pricing({ banner }: { banner?: any }) {
                   <div className="flex flex-col items-center justify-center min-h-[5rem]">
                     
                     {/* 🟢 FIXED: Safe Strike-through Math */}
-                    {finalDefault && Number(finalDefault) > 0 && (
-                      <span className="text-sm font-medium line-through text-foreground decoration-1 opacity-70 mb-[-4px]">
-                        ${tier.key === "annual" ? (Number(finalDefault) / 12).toFixed(2) : Number(finalDefault).toFixed(2)}
+                    {finalDefault && Number(finalDefault) > 0 && (// TODO: clear this up, maybe use a utility function to determine if we should show the strike-through
+                      <span className="text-sm font-medium line-through text-foreground decoration-1 opacity-70 -mb-1">
+                        {tier.key === "annual" ? "$" + (Number(finalDefault) / 12).toFixed(2) :  (finalOriginal != tier.defaultPrice ? "$" + Number(finalDefault).toFixed(2) :  null)} 
                       </span>
                     )}
                     
