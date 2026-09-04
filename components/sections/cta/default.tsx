@@ -58,7 +58,7 @@ export default function CTA({
               <Button size="lg" asChild className="h-12 px-6">
                 <a href={siteConfig.getStartedUrl}>
                   <Globe className="mr-2 size-4" />
-                  Start 7-day free
+                  Get Weekly
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild className="h-12 px-6">

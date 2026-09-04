@@ -161,7 +161,8 @@ export default function Pricing({ banner }: { banner?: any }) {
 
   // Helper to map buttons back to your old text style
   const getButtonText = (key: string, hasPromo?: boolean) => {
-    if (key === "weekly") return "Start 7-Day Access";
+    console.log(key, hasPromo);
+    if (key === "weekly") return "Start Weekly";
     if (key === "monthly") return "Get Monthly";
     if (key === "annual") return "Get Annual Plan";
     return "Start 3-Day Free Trial";
@@ -196,7 +197,7 @@ export default function Pricing({ banner }: { banner?: any }) {
             
             const fallbackOriginal = tier.original !== undefined ? tier.original : tier.defaultPrice;
             const finalOriginal = liveData ? liveData.current : fallbackOriginal;
-            
+            console.log("--", tier.defaultPrice, finalOriginal);
             const finalDefault = liveData && liveData.original ? liveData.original : tier.defaultPrice;
             console.log( tier.defaultPrice, finalOriginal);
             return (
@@ -211,7 +212,7 @@ export default function Pricing({ banner }: { banner?: any }) {
                 )}
               >
                 {/* Top Badge (Old Style) */}
-                {isSelected && (
+                {/* {isSelected && (
                   <div className="absolute -top-4 left-0 right-0 mx-auto w-fit">
                     <Badge className="bg-primary hover:bg-primary text-primary-foreground px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 whitespace-nowrap">
                       {(tier as any).claimOffer ? (
@@ -224,7 +225,7 @@ export default function Pricing({ banner }: { banner?: any }) {
                       )}
                     </Badge>
                   </div>
-                )}
+                )} */}
 
                 {/* Card Header */}
                 <div className="mb-8 text-center flex flex-col items-center">
@@ -258,7 +259,7 @@ export default function Pricing({ banner }: { banner?: any }) {
                     {/* Billed Annually Subtext */}
                     {tier.key === "annual" && (
                       <span className="text-xs text-muted-foreground mt-1">
-                        Billed annually (${Number(finalOriginal).toFixed(2)}/yr)
+                        $0 due today ·  (${Number(finalOriginal).toFixed(2)}/yr) (next ${Number(finalOriginal).toFixed(2)} next year)
                       </span>
                     )}
 
